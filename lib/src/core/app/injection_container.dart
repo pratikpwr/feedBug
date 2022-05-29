@@ -16,7 +16,7 @@ Future<void> init() async {
 
   // repository
   sl.registerLazySingleton<ProjectRepository>(
-      () => ProjectRepositoryImpl(networkInfo: sl(), client: sl()));
+      () => ProjectRepositoryImpl(networkInfo: sl(), client: sl(), apiClient: sl()));
 
   // core
   sl.registerLazySingleton<NetworkInfo>(

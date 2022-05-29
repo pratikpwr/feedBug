@@ -8,6 +8,7 @@ class GQLQuery {
       id
       teams
       title
+      image_url
     }
   }
   ''';
