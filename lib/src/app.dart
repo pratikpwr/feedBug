@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:setuback/src/core/themes/theme_data.dart';
+import 'package:setuback/src/features/projects/screens/projects_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeConfig.themeFromSeed,
-      home: const MyHomePage(),
+      home: const ProjectsScreen(),
     );
   }
 }

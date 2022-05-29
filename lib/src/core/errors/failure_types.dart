@@ -22,4 +22,21 @@ enum FailureType {
         return FailureType.unknown;
     }
   }
+
+  String get message {
+    switch (this) {
+      case FailureType.server:
+        return 'Server Failure';
+      case FailureType.notFound:
+        return 'Not Found';
+      case FailureType.noData:
+        return 'No Data';
+      case FailureType.noInternet:
+        return 'No Internet';
+      case FailureType.internal:
+        return 'Internal Failure';
+      default:
+        return 'Unknown Failure';
+    }
+  }
 }

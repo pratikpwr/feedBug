@@ -10,22 +10,18 @@ part 'get_projects_event.dart';
 part 'get_projects_state.dart';
 
 class GetProjectsBloc extends Bloc<GetProjectsEvent, GetProjectsState> {
-  GetProjectsBloc({
-    required this.repository,
-  }) : super(GetProjectsInitial());
-
   final ProjectRepository repository;
 
-  @override
-  Stream<GetProjectsState> mapEventToState(
-    GetProjectsEvent event,
-  ) async* {
-    if (event is GetProjects) {
-      _mapGetProjectsToState(event);
-    }
+  GetProjectsBloc({
+    required this.repository,
+  }) : super(GetProjectsInitial()) {
+    on<GetProjects>(_onGetProjectsEvent);
   }
 
-  _mapGetProjectsToState(GetProjects event) async* {
+  void _onGetProjectsEvent(
+    GetProjects event,
+    Emitter<GetProjectsState> emit,
+  ) async {
     emit(GetProjectsLoading());
 
     final result = await repository.getProjects();

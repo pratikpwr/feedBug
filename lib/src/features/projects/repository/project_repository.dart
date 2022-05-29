@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 
 import '../../../core/errors/failures.dart';
 import '../../../core/graphql/gql_client.dart';
@@ -28,6 +29,7 @@ class ProjectRepositoryImpl implements ProjectRepository {
       );
 
       if (result.hasException || result.data == null) {
+        debugPrint(result.exception.toString());
         return Left(ServerFailure(result.exception.toString()));
       }
 

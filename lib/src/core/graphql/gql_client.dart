@@ -1,7 +1,6 @@
 import 'package:graphql/client.dart';
 import 'package:setuback/src/core/constants/api_constants.dart';
 
-
 class GQLClient {
   static Future<QueryResult> mutate({
     required String document,
@@ -55,7 +54,10 @@ class GQLClient {
   }
 
   static Future<Map<String, String>> _getHeaders() async {
-    Map<String, String> headers = {"content-type": 'application/json'};
+    Map<String, String> headers = {
+      "content-type": 'application/json',
+      "X-Auth-Token": ApiConstants.xAuthToken,
+    };
 
     return headers;
   }
