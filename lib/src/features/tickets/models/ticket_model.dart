@@ -11,7 +11,7 @@ class Ticket {
   final String? improvement;
 
   final TicketType? ticketType;
-  final Flavors? flavor;
+  final Flavor? flavor;
   final TicketPriority? priority;
   final TicketStatus status;
 

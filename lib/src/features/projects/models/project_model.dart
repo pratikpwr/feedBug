@@ -7,14 +7,14 @@ class Project extends Equatable {
   final String id;
   final String title;
   final String? description;
-  final Flavors? flavor;
+  final List<Flavor>? flavor;
   final List<TeamType> teams;
 
   const Project({
     required this.id,
     required this.title,
     this.description,
-    required this.flavor,
+    this.flavor = const [],
     this.teams = const [],
   });
 
@@ -26,4 +26,16 @@ class Project extends Equatable {
         flavor,
         teams,
       ];
+
+  factory Project.fromJson(Map<String, dynamic> json) {
+    return Project(
+      id: json["id"],
+      title: json["title"],
+      description: json["description"],
+      flavor: List<Flavor>.from(
+          json["flavors"].map((f) => Flavor.fromString(f)).toList()),
+      teams: List<TeamType>.from(
+          json["teams"].map((t) => TeamType.fromString(t)).toList()),
+    );
+  }
 }
