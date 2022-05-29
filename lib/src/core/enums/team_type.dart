@@ -1,4 +1,5 @@
 enum TeamType {
+  managment,
   product,
   design,
   frontend,
@@ -7,4 +8,5 @@ enum TeamType {
   cs,
   finance,
   testing,
+  lowcode,
 }

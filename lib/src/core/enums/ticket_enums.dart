@@ -1,6 +1,7 @@
 enum TicketType {
   bug,
   improvement,
+  feedback,
 }
 
 enum TicketPriority {
