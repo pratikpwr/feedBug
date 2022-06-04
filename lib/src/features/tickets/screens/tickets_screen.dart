@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:setuback/src/core/app/injection_container.dart';
+import 'package:setuback/src/core/extension/context_extension.dart';
+import 'package:setuback/src/core/views/atomic/atoms/card_item.dart';
 import 'package:setuback/src/core/views/atomic/atoms/icon_item.dart';
+import 'package:setuback/src/core/views/atomic/atoms/padding.dart';
 import 'package:setuback/src/core/views/widgets/loader.dart';
 import 'package:setuback/src/core/views/widgets/unknown_state.dart';
 import 'package:setuback/src/features/tickets/models/ticket_model.dart';
@@ -33,7 +36,13 @@ class TicketsScreen extends StatelessWidget {
                   return const Loader();
                 }
                 if (state is GetTicketsSuccess) {
-                  return TicketsWidget(tickets: state.tickets);
+                  return ListView.builder(
+                    itemCount: state.tickets.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return TicketsWidget(ticket: state.tickets[index]);
+                    },
+                  );
                 }
                 if (state is GetTicketsFailure) {
                   return FailureView(type: state.type);
@@ -47,30 +56,71 @@ class TicketsScreen extends StatelessWidget {
 }
 
 class TicketsWidget extends StatelessWidget {
-  final List<Ticket> tickets;
+  final Ticket ticket;
 
-  const TicketsWidget({Key? key, required this.tickets}) : super(key: key);
+  const TicketsWidget({Key? key, required this.ticket}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: tickets.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          final ticket = tickets[index];
-          return ListTile(
-            leading: ticket.ticketType != null
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: IconItem(
-                      ticket.ticketType!.icon,
-                      size: 30,
+    return CardItem(
+      child: Row(
+        children: [
+          if (ticket.ticketType != null)
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: IconItem(
+                ticket.ticketType!.icon,
+                size: 30,
+              ),
+            ),
+          padding12,
+          Expanded(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                ticket.title,
+                maxLines: 2,
+                style: context.theme.textTheme.titleMedium,
+              ),
+              Text(
+                ticket.description ?? '',
+                maxLines: 3,
+                style: context.theme.textTheme.bodyMedium,
+              ),
+              Row(
+                children: [
+                  if (ticket.priority != null)
+                    Row(
+                      children: [
+                        Text(
+                          'Priority',
+                          style: context.theme.textTheme.bodyMedium,
+                        ),
+                        padding8,
+                        ticket.priority!.icon
+                      ],
                     ),
+                  padding12,
+                  Row(
+                    children: [
+                      Text(
+                        'Stautus',
+                        style: context.theme.textTheme.bodyMedium,
+                      ),
+                      padding8,
+                      Text(
+                        ticket.status.name,
+                        style: context.theme.textTheme.bodyMedium,
+                      ),
+                    ],
                   )
-                : const SizedBox(),
-            title: Text(ticket.title),
-            subtitle: Text(ticket.description ?? ''),
-          );
-        });
+                ],
+              )
+            ],
+          ))
+        ],
+      ),
+    );
   }
 }

@@ -65,12 +65,12 @@ enum TicketPriority {
       case TicketPriority.highest:
         return const IconItem(
           Assets.priorityHighest,
-          color: AppColors.success,
+          color: AppColors.error,
         );
       case TicketPriority.high:
         return const IconItem(
           Assets.priorityHigh,
-          color: AppColors.success,
+          color: AppColors.error,
         );
       case TicketPriority.medium:
         return const IconItem(
@@ -80,12 +80,12 @@ enum TicketPriority {
       case TicketPriority.low:
         return const IconItem(
           Assets.priorityLow,
-          color: AppColors.error,
+          color: AppColors.success,
         );
       case TicketPriority.lowest:
         return const IconItem(
           Assets.priorityLowest,
-          color: AppColors.error,
+          color: AppColors.success,
         );
     }
   }
