@@ -11,6 +11,7 @@ import 'package:setuback/src/features/tickets/models/ticket_model.dart';
 
 import '../../../core/views/widgets/failure_view.dart';
 import '../bloc/get_tickets/get_tickets_bloc.dart';
+import 'create_ticket_screen.dart';
 
 class TicketsScreen extends StatelessWidget {
   const TicketsScreen({
@@ -28,6 +29,14 @@ class TicketsScreen extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Tickets'),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return CreateTicketScreen();
+              }));
+            },
+            child: Icon(Icons.add),
           ),
           body: SingleChildScrollView(
             child: BlocBuilder<GetTicketsBloc, GetTicketsState>(
