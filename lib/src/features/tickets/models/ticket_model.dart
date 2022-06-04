@@ -1,8 +1,10 @@
+import 'package:equatable/equatable.dart';
+
 import '../../../core/enums/flavors.dart';
 import '../../../core/enums/ticket_enums.dart';
 import 'comment_model.dart';
 
-class Ticket {
+class Ticket extends Equatable {
   final String id;
   final String title;
   final String projectId;
@@ -44,6 +46,46 @@ class Ticket {
     this.deviceModel,
     required this.createdBy,
     this.assignedTo,
-    required this.comments,
+    this.comments = const [],
   });
+
+  @override
+  List<Object?> get props => [
+        id,
+        title,
+        projectId,
+        description,
+        improvement,
+        ticketType,
+        flavor,
+        priority,
+        status,
+        occurrenceModule,
+        occurrenceElement,
+        device,
+        deviceModel,
+        createdBy,
+        assignedTo,
+        comments,
+      ];
+
+  factory Ticket.fromJson(Map<String, dynamic> json) {
+    return Ticket(
+      id: json["id"],
+      title: json["title"],
+      projectId: json["project"],
+      description: json["description"],
+      improvement: json["improvement"],
+      ticketType: TicketType.fromString(json["ticket_type"]),
+      flavor: Flavor.fromString(json["flavor"]),
+      priority: TicketPriority.fromString(json["priority"]),
+      status: TicketStatus.created,
+      occurrenceModule: json["occurrence_module"],
+      occurrenceElement: json["occurrence_element"],
+      device: json["device"],
+      deviceModel: json["device_model"],
+      createdBy: json["created_by"],
+      assignedTo: json["assigned_to"],
+    );
+  }
 }

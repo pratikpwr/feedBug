@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:setuback/src/core/views/widgets/loader.dart';
 import 'package:setuback/src/core/views/widgets/unknown_state.dart';
 import 'package:setuback/src/features/projects/bloc/get_projects/get_projects_bloc.dart';
+import 'package:setuback/src/features/tickets/screens/tickets_screen.dart';
 
 import '../../../core/views/widgets/failure_view.dart';
 import '../models/project_model.dart';
@@ -63,6 +64,14 @@ class ProjectsWidget extends StatelessWidget {
                 : const SizedBox(),
             title: Text(project.title),
             subtitle: Text(project.description ?? ''),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TicketsScreen(releaseId: project.id),
+                ),
+              );
+            },
           );
         });
   }

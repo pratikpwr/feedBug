@@ -12,4 +12,28 @@ class GQLQuery {
     }
   }
   ''';
+
+  static String getTickets = '''
+  query Tickets {
+    queryTicket {
+      title
+      ticket_type
+      status
+      priority
+      project
+      occurrence_module
+      occurrence_element
+      improvement
+      id
+      flavor
+      device_model
+      device
+      description
+      created_by 
+      assigned_to 
+    }
+  }
+  ''';
 }
+
+
