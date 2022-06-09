@@ -8,6 +8,7 @@ import 'package:setuback/src/core/views/atomic/atoms/padding.dart';
 import 'package:setuback/src/core/views/widgets/loader.dart';
 import 'package:setuback/src/core/views/widgets/unknown_state.dart';
 import 'package:setuback/src/features/tickets/models/ticket_model.dart';
+import 'package:setuback/src/features/tickets/screens/ticket_details_screen.dart';
 
 import '../../../core/views/widgets/failure_view.dart';
 import '../bloc/get_tickets/get_tickets_bloc.dart';
@@ -33,10 +34,10 @@ class TicketsScreen extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return CreateTicketScreen();
+                return const CreateTicketScreen();
               }));
             },
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
           ),
           body: SingleChildScrollView(
             child: BlocBuilder<GetTicketsBloc, GetTicketsState>(
@@ -47,6 +48,7 @@ class TicketsScreen extends StatelessWidget {
                 if (state is GetTicketsSuccess) {
                   return ListView.builder(
                     itemCount: state.tickets.length,
+                    padding: const EdgeInsets.all(8),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return TicketsWidget(ticket: state.tickets[index]);
@@ -72,6 +74,13 @@ class TicketsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardItem(
+      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 8),
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return TicketDetailsScreen(ticket: ticket);
+        }));
+      },
       child: Row(
         children: [
           if (ticket.ticketType != null)
@@ -90,40 +99,39 @@ class TicketsWidget extends StatelessWidget {
               Text(
                 ticket.title,
                 maxLines: 2,
-                style: context.theme.textTheme.titleMedium,
+                style: context.theme.textTheme.titleMedium
+                    ?.copyWith(fontWeight: FontWeight.w600),
               ),
               Text(
                 ticket.description ?? '',
                 maxLines: 3,
-                style: context.theme.textTheme.bodyMedium,
+                style: context.theme.textTheme.bodyLarge,
               ),
+              if (ticket.priority != null)
+                Row(
+                  children: [
+                    Text(
+                      'Priority',
+                      style: context.theme.textTheme.labelLarge,
+                    ),
+                    padding8,
+                    IconItem(
+                      ticket.priority!.iconPath,
+                      type: IconType.svg,
+                    ),
+                  ],
+                ),
               Row(
                 children: [
-                  if (ticket.priority != null)
-                    Row(
-                      children: [
-                        Text(
-                          'Priority',
-                          style: context.theme.textTheme.bodyMedium,
-                        ),
-                        padding8,
-                        ticket.priority!.icon
-                      ],
-                    ),
-                  padding12,
-                  Row(
-                    children: [
-                      Text(
-                        'Stautus',
-                        style: context.theme.textTheme.bodyMedium,
-                      ),
-                      padding8,
-                      Text(
-                        ticket.status.name,
-                        style: context.theme.textTheme.bodyMedium,
-                      ),
-                    ],
-                  )
+                  Text(
+                    'Status',
+                    style: context.theme.textTheme.labelLarge,
+                  ),
+                  padding8,
+                  Text(
+                    ticket.status.name.toUpperCase(),
+                    style: context.theme.textTheme.bodyMedium,
+                  ),
                 ],
               )
             ],

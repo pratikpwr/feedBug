@@ -6,9 +6,9 @@ class Assets {
   static const String improvement = 'assets/icons/improve.png';
   static const String feedback = 'assets/icons/feedback.png';
 
-  static const String priorityLowest = 'assets/icons/priority_lowest.png';
-  static const String priorityLow = 'assets/icons/priority_low.png';
-  static const String priorityMedium = 'assets/icons/priority_medium.png';
-  static const String priorityHigh = 'assets/icons/priority_high.png';
-  static const String priorityHighest = 'assets/icons/priority_highest.png';
+  static const String priorityLowest = 'assets/icons/lowest.svg';
+  static const String priorityLow = 'assets/icons/low.svg';
+  static const String priorityMedium = 'assets/icons/medium.svg';
+  static const String priorityHigh = 'assets/icons/high.svg';
+  static const String priorityHighest = 'assets/icons/highest.svg';
 }

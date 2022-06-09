@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../themes/app_colors.dart';
 
@@ -32,15 +33,15 @@ class IconItem extends StatelessWidget {
           height: size,
           width: size,
           color: color,
-          fit: BoxFit.cover,
+          fit: BoxFit.fitWidth,
         );
       case IconType.svg:
-        return Image.asset(
+        return SvgPicture.asset(
           path,
-          height: size,
           width: size,
+          height: size,
+          fit: BoxFit.fitWidth,
           color: color,
-          fit: BoxFit.cover,
         );
       case IconType.urlPng:
         return CachedNetworkImage(
@@ -48,7 +49,7 @@ class IconItem extends StatelessWidget {
           height: size,
           width: size,
           color: color,
-          fit: BoxFit.cover,
+          fit: BoxFit.fitWidth,
         );
       default:
         return const SizedBox();

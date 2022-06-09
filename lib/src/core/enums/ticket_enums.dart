@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-
 import '../constants/assets_constants.dart';
-import '../themes/app_colors.dart';
-import '../views/atomic/atoms/icon_item.dart';
 
 enum TicketType {
   bug,
@@ -60,33 +56,18 @@ enum TicketPriority {
     }
   }
 
-  Widget get icon {
+  String get iconPath {
     switch (this) {
       case TicketPriority.highest:
-        return const IconItem(
-          Assets.priorityHighest,
-          color: AppColors.error,
-        );
+        return Assets.priorityHighest;
       case TicketPriority.high:
-        return const IconItem(
-          Assets.priorityHigh,
-          color: AppColors.error,
-        );
+        return Assets.priorityHigh;
       case TicketPriority.medium:
-        return const IconItem(
-          Assets.priorityMedium,
-          color: AppColors.warning,
-        );
+        return Assets.priorityMedium;
       case TicketPriority.low:
-        return const IconItem(
-          Assets.priorityLow,
-          color: AppColors.success,
-        );
+        return Assets.priorityLow;
       case TicketPriority.lowest:
-        return const IconItem(
-          Assets.priorityLowest,
-          color: AppColors.success,
-        );
+        return Assets.priorityLowest;
     }
   }
 }
