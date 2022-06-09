@@ -19,9 +19,7 @@ class LabelledTextFieldItem extends StatelessWidget {
     this.onEditingComplete,
     this.onFieldSubmitted,
     this.onChanged,
-    this.errorColor = AppColors.error,
     this.inputFormatters,
-    this.focusedBorderColor = AppColors.primary,
     this.textAlignment = TextAlign.start,
   }) : super(key: key);
 
@@ -39,8 +37,6 @@ class LabelledTextFieldItem extends StatelessWidget {
   final Function()? onEditingComplete;
   final Function(String)? onFieldSubmitted, onChanged;
 
-  final Color errorColor;
-  final Color focusedBorderColor;
 
   final TextAlign textAlignment;
 
@@ -71,9 +67,9 @@ class LabelledTextFieldItem extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         border: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey)),
+            borderSide: BorderSide()),
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: focusedBorderColor)),
+            borderSide: BorderSide()),
       ),
       maxLines: maxLines,
       validator: validator,

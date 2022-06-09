@@ -2,21 +2,28 @@ part of 'create_ticket_cubit.dart';
 
 class CreateTicketState extends Equatable {
   final String? title;
+  final titleController = TextEditingController();
   final String? description;
+  final descriptionController = TextEditingController();
   final TicketPriority? priority;
   final TicketType? ticketType;
-  final String? improvment;
+  final String? improvement;
+  final improvementController = TextEditingController();
   final String? occurrenceModel;
+  final occurrenceModelController = TextEditingController();
   final String? occurrenceElement;
+  final occurrenceElementController = TextEditingController();
   final String? deviceName;
+  final deviceNameController = TextEditingController();
   final String? deviceModel;
+  final deviceModelController = TextEditingController();
 
-  const CreateTicketState({
+  CreateTicketState({
     this.title,
     this.description,
     this.priority,
     this.ticketType,
-    this.improvment,
+    this.improvement,
     this.occurrenceModel,
     this.occurrenceElement,
     this.deviceName,
@@ -28,7 +35,7 @@ class CreateTicketState extends Equatable {
     String? description,
     TicketPriority? priority,
     TicketType? ticketType,
-    String? improvment,
+    String? improvement,
     String? occurrenceModel,
     String? occurrenceElement,
     String? deviceName,
@@ -39,7 +46,7 @@ class CreateTicketState extends Equatable {
       description: description ?? this.description,
       priority: priority ?? this.priority,
       ticketType: ticketType ?? this.ticketType,
-      improvment: improvment ?? this.improvment,
+      improvement: improvement ?? this.improvement,
       occurrenceModel: occurrenceModel ?? this.occurrenceModel,
       occurrenceElement: occurrenceElement ?? this.occurrenceElement,
       deviceName: deviceName ?? this.deviceName,
@@ -53,7 +60,7 @@ class CreateTicketState extends Equatable {
         description,
         priority,
         ticketType,
-        improvment,
+        improvement,
         occurrenceModel,
         occurrenceElement,
         deviceName,
