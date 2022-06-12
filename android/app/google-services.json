@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "895111680661",
+    "project_id": "feedback-4916f",
+    "storage_bucket": "feedback-4916f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895111680661:android:fef6ceb63bb86e0987419c",
+        "android_client_info": {
+          "package_name": "com.setu.setuback"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895111680661-q3hbjahi3kmfi9hh6atkoc3qlonro2u2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKDx11XdyzNRlnohZhM2Zz95_jqdTGUd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895111680661-q3hbjahi3kmfi9hh6atkoc3qlonro2u2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

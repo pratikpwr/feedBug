@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:setuback/src/core/network/api_client.dart';
+import 'package:setuback/src/core/network/firebase_client.dart';
 import 'package:setuback/src/features/tickets/repository/ticket_repository.dart';
 
 import '../../features/projects/bloc/get_projects/get_projects_bloc.dart';
@@ -16,8 +18,10 @@ Future<void> init() async {
   sl.registerFactory<GetProjectsBloc>(() => GetProjectsBloc(repository: sl()));
 
   // repository
-  sl.registerLazySingleton<ProjectRepository>(() =>
-      ProjectRepositoryImpl(networkInfo: sl(), client: sl(), apiClient: sl()));
+  sl.registerLazySingleton<ProjectRepository>(() => ProjectRepositoryImpl(
+        networkInfo: sl(),
+        firebaseClient: sl(),
+      ));
   sl.registerLazySingleton<TicketRepository>(() =>
       TicketRepositoryImpl(networkInfo: sl(), client: sl(), apiClient: sl()));
 
@@ -25,6 +29,8 @@ Future<void> init() async {
   sl.registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImpl(dataConnectionChecker: sl()));
   sl.registerLazySingleton<ApiClient>(() => ApiClientImpl(dio: sl()));
+  sl.registerLazySingleton<FirebaseClient>(
+      () => FirebaseClientImpl(FirebaseFirestore.instance));
   sl.registerLazySingleton(() => GQLClient());
   sl.registerLazySingleton(() => Dio());
   sl.registerLazySingleton(() => InternetConnectionChecker());

@@ -29,16 +29,29 @@ class Project extends Equatable {
         teams,
       ];
 
-  factory Project.fromJson(Map<String, dynamic> json) {
+  factory Project.fromJson(String id, Map<String, Object?> json) {
     return Project(
-      id: json["id"],
-      title: json["title"],
-      imageUrl: json["image_url"],
-      description: json["description"],
-      flavor: List<Flavor>.from(
-          json["flavors"].map((f) => Flavor.fromString(f)).toList()),
-      teams: List<TeamType>.from(
-          json["teams"].map((t) => TeamType.fromString(t)).toList()),
+      id: id,
+      title: json["title"]! as String,
+      imageUrl: json["image_url"]?.toString(),
+      description: json["description"]?.toString(),
+      // flavor: (json["flavor"] as List<dynamic>)
+      //     .map((e) => Flavor.values[e])
+      //     .toList(),
+      // teams: (json["teams"] as List<dynamic>)
+      //     .map((e) => TeamType.values[e])
+      //     .toList(),
     );
+  }
+
+  Map<String, Object?> toJson() {
+    return {
+      "id": id,
+      'title': title,
+      'image_url': imageUrl,
+      'description': description,
+      'flavor': flavor?.map((e) => e.index).toList(),
+      'teams': teams.map((e) => e.index).toList(),
+    };
   }
 }
