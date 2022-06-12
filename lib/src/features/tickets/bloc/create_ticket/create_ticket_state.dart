@@ -9,7 +9,7 @@ class CreateTicketState extends Equatable {
   final TicketType? ticketType;
   final String? improvement;
   final improvementController = TextEditingController();
-  final String? occurrenceModel;
+  final String? occurrenceModule;
   final occurrenceModelController = TextEditingController();
   final String? occurrenceElement;
   final occurrenceElementController = TextEditingController();
@@ -24,7 +24,7 @@ class CreateTicketState extends Equatable {
     this.priority,
     this.ticketType,
     this.improvement,
-    this.occurrenceModel,
+    this.occurrenceModule,
     this.occurrenceElement,
     this.deviceName,
     this.deviceModel,
@@ -47,7 +47,7 @@ class CreateTicketState extends Equatable {
       priority: priority ?? this.priority,
       ticketType: ticketType ?? this.ticketType,
       improvement: improvement ?? this.improvement,
-      occurrenceModel: occurrenceModel ?? this.occurrenceModel,
+      occurrenceModule: occurrenceModel ?? this.occurrenceModule,
       occurrenceElement: occurrenceElement ?? this.occurrenceElement,
       deviceName: deviceName ?? this.deviceName,
       deviceModel: deviceModel ?? this.deviceModel,
@@ -61,7 +61,7 @@ class CreateTicketState extends Equatable {
         priority,
         ticketType,
         improvement,
-        occurrenceModel,
+        occurrenceModule,
         occurrenceElement,
         deviceName,
         deviceModel,

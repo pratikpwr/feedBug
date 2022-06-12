@@ -7,6 +7,8 @@ import 'package:setuback/src/core/views/atomic/atoms/icon_item.dart';
 import 'package:setuback/src/core/views/atomic/atoms/padding.dart';
 import 'package:setuback/src/core/views/widgets/loader.dart';
 import 'package:setuback/src/core/views/widgets/unknown_state.dart';
+import 'package:setuback/src/features/tickets/bloc/create_ticket/create_ticket_cubit.dart';
+import 'package:setuback/src/features/tickets/bloc/submit_ticket/submit_ticket_bloc.dart';
 import 'package:setuback/src/features/tickets/models/ticket_model.dart';
 import 'package:setuback/src/features/tickets/screens/ticket_details_screen.dart';
 
@@ -24,20 +26,28 @@ class TicketsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) =>
-            GetTicketsBloc(repository: sl())..add(GetTickets()),
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+              create: (context) =>
+                  GetTicketsBloc(repository: sl())..add(GetTickets())),
+        ],
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Tickets'),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const CreateTicketScreen();
-              }));
-            },
-            child: const Icon(Icons.add),
+          floatingActionButton: Builder(
+            builder: (context) {
+              return FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const CreateTicketScreen();
+                  })).then((value) =>
+                      BlocProvider.of<GetTicketsBloc>(context).add(GetTickets()));
+                },
+                child: const Icon(Icons.add),
+              );
+            }
           ),
           body: SingleChildScrollView(
             child: BlocBuilder<GetTicketsBloc, GetTicketsState>(

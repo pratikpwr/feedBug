@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:setuback/src/core/constants/api_constants.dart';
 import 'package:setuback/src/core/enums/http_method.dart';
 import 'package:setuback/src/core/network/api_client.dart';
@@ -15,6 +16,8 @@ import '../../../core/network/network_info.dart';
 
 abstract class TicketRepository {
   Future<Either<Failure, List<Ticket>>> getTickets();
+
+  Future<Either<Failure, void>> submitTicket(Ticket ticket);
 }
 
 class TicketRepositoryImpl implements TicketRepository {
@@ -26,26 +29,39 @@ class TicketRepositoryImpl implements TicketRepository {
     required this.firebaseClient,
   });
 
+  CollectionReference<Ticket> get ticketRef =>
+      firebaseClient.collection('ticket').withConverter<Ticket>(
+            fromFirestore: (snapshot, _) => Ticket.fromJson(
+              snapshot.id,
+              snapshot.data()!,
+            ),
+            toFirestore: (ticket, _) => ticket.toJson(),
+          );
+
   @override
   Future<Either<Failure, List<Ticket>>> getTickets() async {
     if (await networkInfo.isConnected) {
-      final ticketRef =
-          firebaseClient.collection('ticket').withConverter<Ticket>(
-                fromFirestore: (snapshot, _) => Ticket.fromJson(
-                  snapshot.id,
-                  snapshot.data()!,
-                ),
-                toFirestore: (ticket, _) => ticket.toJson(),
-              );
-
-      // try {
+      try {
         List<QueryDocumentSnapshot<Ticket>> tickets =
             await ticketRef.get().then((snapshot) => snapshot.docs);
 
         return Right(tickets.map((snapshot) => snapshot.data()).toList());
-      // } catch (e) {
-      //   return Left(InternalFailure(e.toString()));
-      // }
+      } catch (e) {
+        return Left(InternalFailure(e.toString()));
+      }
+    } else {
+      return const Left(NoInternetFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> submitTicket(Ticket ticket) async {
+    if (await networkInfo.isConnected) {
+      await ticketRef.add(ticket).onError((error, stackTrace) {
+        print(error);
+        throw (ServerFailure(error.toString()));
+      });
+      return Right(VoidCallback);
     } else {
       return const Left(NoInternetFailure());
     }

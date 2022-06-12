@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:setuback/src/core/network/api_client.dart';
 import 'package:setuback/src/core/network/firebase_client.dart';
+import 'package:setuback/src/features/tickets/bloc/submit_ticket/submit_ticket_bloc.dart';
 import 'package:setuback/src/features/tickets/repository/ticket_repository.dart';
 
 import '../../features/projects/bloc/get_projects/get_projects_bloc.dart';
@@ -16,7 +17,8 @@ final sl = GetIt.instance;
 Future<void> init() async {
   // bloc
   sl.registerFactory<GetProjectsBloc>(() => GetProjectsBloc(repository: sl()));
-
+  sl.registerFactory<SubmitTicketBloc>(
+      () => SubmitTicketBloc(repository: sl()));
   // repository
   sl.registerLazySingleton<ProjectRepository>(() => ProjectRepositoryImpl(
         networkInfo: sl(),

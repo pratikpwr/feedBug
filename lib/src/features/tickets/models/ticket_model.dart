@@ -93,7 +93,7 @@ class Ticket extends Equatable {
     return {
       'id': id,
       'title': title,
-      'project': projectId,
+      'project_id': projectId,
       'description': description,
       'improvement': improvement,
       'ticket_type': ticketType?.toString(),
