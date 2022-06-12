@@ -22,8 +22,10 @@ Future<void> init() async {
         networkInfo: sl(),
         firebaseClient: sl(),
       ));
-  sl.registerLazySingleton<TicketRepository>(() =>
-      TicketRepositoryImpl(networkInfo: sl(), client: sl(), apiClient: sl()));
+  sl.registerLazySingleton<TicketRepository>(() => TicketRepositoryImpl(
+        networkInfo: sl(),
+        firebaseClient: sl(),
+      ));
 
   // core
   sl.registerLazySingleton<NetworkInfo>(

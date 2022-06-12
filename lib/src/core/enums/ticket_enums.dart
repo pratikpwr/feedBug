@@ -5,7 +5,7 @@ enum TicketType {
   improvement,
   feedback;
 
-  static TicketType fromString(String str) {
+  static TicketType? fromString(String? str) {
     switch (str) {
       case 'bug':
         return TicketType.bug;
@@ -14,7 +14,7 @@ enum TicketType {
       case 'feedback':
         return TicketType.feedback;
       default:
-        throw Exception('Unknown TicketType: $str');
+        return null;
     }
   }
 
@@ -39,7 +39,7 @@ enum TicketPriority {
   low,
   lowest;
 
-  static TicketPriority fromString(String str) {
+  static TicketPriority? fromString(String? str) {
     switch (str) {
       case 'highest':
         return TicketPriority.highest;
@@ -52,7 +52,7 @@ enum TicketPriority {
       case 'lowest':
         return TicketPriority.lowest;
       default:
-        throw Exception('Unknown TicketPriority: $str');
+        return null;
     }
   }
 

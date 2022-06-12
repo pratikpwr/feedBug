@@ -3,7 +3,7 @@ enum Flavor {
   qa,
   prod;
 
-  static Flavor fromString(String flavor) {
+  static Flavor? fromString(String? flavor) {
     switch (flavor) {
       case 'dev':
         return Flavor.dev;
@@ -12,7 +12,7 @@ enum Flavor {
       case 'prod':
         return Flavor.prod;
       default:
-        return Flavor.dev;
+        return null;
     }
   }
 }

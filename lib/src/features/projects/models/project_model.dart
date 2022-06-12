@@ -46,12 +46,9 @@ class Project extends Equatable {
 
   Map<String, Object?> toJson() {
     return {
-      "id": id,
       'title': title,
       'image_url': imageUrl,
       'description': description,
-      'flavor': flavor?.map((e) => e.index).toList(),
-      'teams': teams.map((e) => e.index).toList(),
     };
   }
 }

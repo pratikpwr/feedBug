@@ -69,23 +69,43 @@ class Ticket extends Equatable {
         comments,
       ];
 
-  factory Ticket.fromJson(Map<String, dynamic> json) {
+  factory Ticket.fromJson(String id, Map<String, Object?> json) {
     return Ticket(
-      id: json["id"],
-      title: json["title"],
-      projectId: json["project"],
-      description: json["description"],
-      improvement: json["improvement"],
-      ticketType: TicketType.fromString(json["ticket_type"]),
-      flavor: Flavor.fromString(json["flavor"]),
-      priority: TicketPriority.fromString(json["priority"]),
+      id: id,
+      title: json["title"]! as String,
+      projectId: json["project_id"]! as String,
+      description: json["description"]?.toString(),
+      improvement: json["improvement"]?.toString(),
+      ticketType: TicketType.fromString(json["ticket_type"]?.toString()),
+      flavor: Flavor.fromString(json["flavor"]?.toString()),
+      priority: TicketPriority.fromString(json["priority"]?.toString()),
       status: TicketStatus.created,
-      occurrenceModule: json["occurrence_module"],
-      occurrenceElement: json["occurrence_element"],
-      device: json["device"],
-      deviceModel: json["device_model"],
-      createdBy: json["created_by"],
-      assignedTo: json["assigned_to"],
+      occurrenceModule: json["occurrence_module"]?.toString(),
+      occurrenceElement: json["occurrence_element"]?.toString(),
+      device: json["device"]?.toString(),
+      deviceModel: json["device_model"]?.toString(),
+      createdBy: json["created_by"]?.toString() ?? '',
+      assignedTo: json["assigned_to"]?.toString() ?? '',
     );
+  }
+
+  Map<String, Object?> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'project': projectId,
+      'description': description,
+      'improvement': improvement,
+      'ticket_type': ticketType?.toString(),
+      'flavor': flavor?.toString(),
+      'priority': priority?.toString(),
+      'status': status.toString(),
+      'occurrence_module': occurrenceModule,
+      'occurrence_element': occurrenceElement,
+      'device': device,
+      'device_model': deviceModel,
+      'created_by': createdBy,
+      'assigned_to': assignedTo,
+    };
   }
 }

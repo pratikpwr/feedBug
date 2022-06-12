@@ -56,7 +56,11 @@ class TicketsScreen extends StatelessWidget {
                   );
                 }
                 if (state is GetTicketsFailure) {
-                  return FailureView(type: state.type);
+                  return FailureView(
+                      type: state.type,
+                      onRetry: () {
+                        context.read<GetTicketsBloc>().add(GetTickets());
+                      });
                 }
                 return const UnKnownState();
               },
