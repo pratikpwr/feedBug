@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:setuback/src/core/views/widgets/loader.dart';
-import 'package:setuback/src/core/views/widgets/unknown_state.dart';
-import 'package:setuback/src/features/projects/models/project_model.dart';
-import 'package:setuback/src/features/tickets/screens/tickets_screen.dart';
 
 import '../../../core/app/injection_container.dart';
 import '../../../core/views/widgets/failure_view.dart';
+import '../../../core/views/widgets/loader.dart';
+import '../../../core/views/widgets/unknown_state.dart';
+import '../../projects/models/project_model.dart';
+import '../../tickets/screens/tickets_screen.dart';
 import '../bloc/get_releases/get_releases_bloc.dart';
 import '../models/release_model.dart';
 
@@ -25,7 +25,8 @@ class ReleasesScreen extends StatelessWidget {
         ..add(GetReleases(projectId: project.id)),
       child: Scaffold(
         appBar: AppBar(
-          title:  Text('Releases in ${project.title}', maxLines: 1, overflow: TextOverflow.ellipsis),
+          title: Text('Releases in ${project.title}',
+              maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
         body: SingleChildScrollView(
           child: BlocBuilder<GetReleasesBloc, GetReleasesState>(

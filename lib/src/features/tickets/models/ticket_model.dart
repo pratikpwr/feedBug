@@ -73,7 +73,7 @@ class Ticket extends Equatable {
         createdBy,
         assignedTo,
         comments,
-    createdAt,
+        createdAt,
       ];
 
   factory Ticket.fromJson(String id, Map<String, Object?> json) {

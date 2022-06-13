@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:setuback/src/core/extension/context_extension.dart';
-import 'package:setuback/src/core/views/atomic/atoms/padding.dart';
+
+import '../../../extension/context_extension.dart';
+import 'padding.dart';
 
 class DropdownItem<T> extends StatelessWidget {
   final List<T> items;

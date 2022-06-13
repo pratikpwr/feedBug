@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:setuback/src/core/app/injection_container.dart';
-import 'package:setuback/src/core/extension/context_extension.dart';
-import 'package:setuback/src/core/views/atomic/atoms/card_item.dart';
-import 'package:setuback/src/core/views/atomic/atoms/icon_item.dart';
-import 'package:setuback/src/core/views/atomic/atoms/padding.dart';
-import 'package:setuback/src/core/views/widgets/loader.dart';
-import 'package:setuback/src/core/views/widgets/unknown_state.dart';
-import 'package:setuback/src/features/releases/models/release_model.dart';
-import 'package:setuback/src/features/tickets/models/ticket_model.dart';
 
+import '../../../core/app/injection_container.dart';
+import '../../../core/extension/context_extension.dart';
+import '../../../core/views/atomic/atoms/card_item.dart';
+import '../../../core/views/atomic/atoms/icon_item.dart';
+import '../../../core/views/atomic/atoms/padding.dart';
 import '../../../core/views/widgets/failure_view.dart';
+import '../../../core/views/widgets/loader.dart';
+import '../../../core/views/widgets/unknown_state.dart';
+import '../../releases/models/release_model.dart';
 import '../bloc/tickets_bloc/tickets_bloc.dart';
+import '../models/ticket_model.dart';
 import 'create_ticket_screen.dart';
 
 class TicketsScreen extends StatelessWidget {

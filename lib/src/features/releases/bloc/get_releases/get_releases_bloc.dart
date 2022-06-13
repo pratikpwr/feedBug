@@ -6,7 +6,6 @@ import '../../models/release_model.dart';
 import '../../repository/releases_repository.dart';
 
 part 'get_releases_event.dart';
-
 part 'get_releases_state.dart';
 
 class GetReleasesBloc extends Bloc<GetReleasesEvent, GetReleasesState> {

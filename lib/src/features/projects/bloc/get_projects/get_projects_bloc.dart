@@ -6,7 +6,6 @@ import '../../models/project_model.dart';
 import '../../repository/project_repository.dart';
 
 part 'get_projects_event.dart';
-
 part 'get_projects_state.dart';
 
 class GetProjectsBloc extends Bloc<GetProjectsEvent, GetProjectsState> {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:setuback/src/core/themes/text_theme.dart';
+
+import 'text_theme.dart';
 
 class ThemeConfig {
   static ColorScheme colorSchemeFromSeed =

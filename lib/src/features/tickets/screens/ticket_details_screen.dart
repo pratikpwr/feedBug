@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:setuback/src/core/extension/context_extension.dart';
-import 'package:setuback/src/core/views/atomic/atoms/padding.dart';
 
+import '../../../core/extension/context_extension.dart';
+import '../../../core/views/atomic/atoms/padding.dart';
 import '../models/ticket_model.dart';
 
 class TicketDetailsScreen extends StatelessWidget {

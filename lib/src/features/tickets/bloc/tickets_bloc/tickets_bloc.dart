@@ -1,12 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:setuback/src/features/tickets/models/ticket_model.dart';
-import 'package:setuback/src/features/tickets/repository/ticket_repository.dart';
 
 import '../../../../core/errors/failure_types.dart';
+import '../../models/ticket_model.dart';
+import '../../repository/ticket_repository.dart';
 
 part 'tickets_event.dart';
-
 part 'tickets_state.dart';
 
 class TicketsBloc extends Bloc<TicketsEvent, TicketsState> {

@@ -1,5 +1,6 @@
 import 'package:graphql/client.dart';
-import 'package:setuback/src/core/constants/api_constants.dart';
+
+import '../constants/api_constants.dart';
 
 class GQLClient {
   static Future<QueryResult> mutate({

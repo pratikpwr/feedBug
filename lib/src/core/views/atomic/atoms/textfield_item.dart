@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:setuback/src/core/extension/context_extension.dart';
-import 'package:setuback/src/core/views/atomic/atoms/padding.dart';
 
-import '../../../themes/app_colors.dart';
+import '../../../extension/context_extension.dart';
+import 'padding.dart';
 
 class LabelledTextFieldItem extends StatelessWidget {
   const LabelledTextFieldItem({
@@ -37,7 +36,6 @@ class LabelledTextFieldItem extends StatelessWidget {
   final Function()? onEditingComplete;
   final Function(String)? onFieldSubmitted, onChanged;
 
-
   final TextAlign textAlignment;
 
   @override
@@ -66,10 +64,8 @@ class LabelledTextFieldItem extends StatelessWidget {
       inputFormatters: inputFormatters,
       decoration: InputDecoration(
         hintText: hintText,
-        border: const OutlineInputBorder(
-            borderSide: BorderSide()),
-        focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide()),
+        border: const OutlineInputBorder(borderSide: BorderSide()),
+        focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
       ),
       maxLines: maxLines,
       validator: validator,

@@ -36,7 +36,7 @@ enum TeamType {
         return TeamType.management;
     }
   }
-  
+
   String get toKey {
     switch (this) {
       case TeamType.management:

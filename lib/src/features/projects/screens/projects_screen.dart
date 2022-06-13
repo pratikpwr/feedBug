@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:setuback/src/core/views/widgets/loader.dart';
-import 'package:setuback/src/core/views/widgets/unknown_state.dart';
-import 'package:setuback/src/features/projects/bloc/get_projects/get_projects_bloc.dart';
-import 'package:setuback/src/features/releases/screens/releases_screen.dart';
 
 import '../../../core/views/widgets/failure_view.dart';
+import '../../../core/views/widgets/loader.dart';
+import '../../../core/views/widgets/unknown_state.dart';
+import '../../releases/screens/releases_screen.dart';
+import '../bloc/get_projects/get_projects_bloc.dart';
 import '../models/project_model.dart';
 
 class ProjectsScreen extends StatelessWidget {

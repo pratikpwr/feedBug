@@ -1,4 +1,3 @@
-
 class GQLQuery {
   static String getProjects = '''
   query GetProjects {
@@ -35,5 +34,3 @@ class GQLQuery {
   }
   ''';
 }
-
-

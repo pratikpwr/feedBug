@@ -4,8 +4,6 @@ import 'package:flutter/foundation.dart';
 import '../enums/http_method.dart';
 import '../errors/exception.dart';
 
-
-
 abstract class ApiClient {
   Future<Response> request(
     HttpMethod method,

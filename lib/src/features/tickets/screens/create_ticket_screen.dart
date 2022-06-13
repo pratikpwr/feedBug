@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:setuback/src/core/enums/ticket_enums.dart';
-import 'package:setuback/src/core/views/atomic/atoms/drop_down_item.dart';
-import 'package:setuback/src/core/views/atomic/atoms/textfield_item.dart';
-import 'package:setuback/src/features/releases/models/release_model.dart';
-import 'package:setuback/src/features/tickets/bloc/create_ticket/create_ticket_cubit.dart';
-import 'package:setuback/src/features/tickets/bloc/submit_ticket/submit_ticket_bloc.dart';
-import 'package:setuback/src/features/tickets/models/ticket_model.dart';
 
 import '../../../core/app/injection_container.dart';
+import '../../../core/enums/ticket_enums.dart';
+import '../../../core/views/atomic/atoms/drop_down_item.dart';
 import '../../../core/views/atomic/atoms/padding.dart';
+import '../../../core/views/atomic/atoms/textfield_item.dart';
+import '../../releases/models/release_model.dart';
+import '../bloc/create_ticket/create_ticket_cubit.dart';
+import '../bloc/submit_ticket/submit_ticket_bloc.dart';
+import '../models/ticket_model.dart';
 
 class CreateTicketScreen extends StatelessWidget {
   final Release release;
