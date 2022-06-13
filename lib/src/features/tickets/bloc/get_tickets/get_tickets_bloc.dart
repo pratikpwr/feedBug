@@ -12,10 +12,13 @@ part 'get_tickets_state.dart';
 class GetTicketsBloc extends Bloc<GetTicketsEvent, GetTicketsState> {
   final TicketRepository repository;
 
+  final List<Ticket> tickets = [];
+
   GetTicketsBloc({
     required this.repository,
   }) : super(GetTicketsInitial()) {
     on<GetTickets>(_onGetTicketsEvent);
+    on<DeleteTicket>(_onDeleteTicketEvent);
   }
 
   void _onGetTicketsEvent(
@@ -28,7 +31,27 @@ class GetTicketsBloc extends Bloc<GetTicketsEvent, GetTicketsState> {
 
     result.fold(
       (failure) => emit(GetTicketsFailure(FailureType.fromFailure(failure))),
-      (tickets) => emit(GetTicketsSuccess(tickets)),
+      (ticketsData) {
+        tickets.addAll(ticketsData);
+        emit(GetTicketsSuccess(tickets));
+      },
+    );
+  }
+
+  void _onDeleteTicketEvent(
+    DeleteTicket event,
+    Emitter<GetTicketsState> emit,
+  ) async {
+    emit(GetTicketsLoading());
+
+    final result = await repository.deleteTicket(event.ticketId);
+
+    result.fold(
+      (failure) => emit(GetTicketsFailure(FailureType.fromFailure(failure))),
+      (_) {
+        tickets.removeWhere((ticket) => ticket.id == event.ticketId);
+        emit(GetTicketsSuccess(tickets));
+      },
     );
   }
 }

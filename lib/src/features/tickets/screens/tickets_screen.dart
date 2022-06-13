@@ -28,8 +28,8 @@ class TicketsScreen extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider(
-              create: (context) =>
-                  GetTicketsBloc(repository: sl())..add(GetTickets(releaseId: release.id))),
+              create: (context) => GetTicketsBloc(repository: sl())
+                ..add(GetTickets(releaseId: release.id))),
         ],
         child: Scaffold(
           appBar: AppBar(
@@ -39,9 +39,11 @@ class TicketsScreen extends StatelessWidget {
             return FloatingActionButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return  CreateTicketScreen(release: release,);
-                })).then((value) =>
-                    BlocProvider.of<GetTicketsBloc>(context).add(GetTickets(releaseId: release.id)));
+                  return CreateTicketScreen(
+                    release: release,
+                  );
+                })).then((value) => BlocProvider.of<GetTicketsBloc>(context)
+                    .add(GetTickets(releaseId: release.id)));
               },
               child: const Icon(Icons.add),
             );
@@ -58,7 +60,35 @@ class TicketsScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      return TicketsWidget(ticket: state.tickets[index]);
+                      return Dismissible(
+                        key: Key(state.tickets[index].id.toString()),
+                        background: Container(
+                          padding: const EdgeInsets.all(24),
+                          margin: const EdgeInsets.only(bottom: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.red[200],
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              padding8,
+                              Icon(Icons.delete),
+                            ],
+                          ),
+                        ),
+                        onDismissed: (direction) => _onDismissed(
+                          context,
+                          direction,
+                          state.tickets[index],
+                        ),
+                        confirmDismiss: (direction) => _confirmDismiss(
+                          context,
+                          direction,
+                          state.tickets[index],
+                        ),
+                        child: TicketsWidget(ticket: state.tickets[index]),
+                      );
                     },
                   );
                 }
@@ -66,7 +96,9 @@ class TicketsScreen extends StatelessWidget {
                   return FailureView(
                       type: state.type,
                       onRetry: () {
-                        context.read<GetTicketsBloc>().add(GetTickets(releaseId: release.id));
+                        context
+                            .read<GetTicketsBloc>()
+                            .add(GetTickets(releaseId: release.id));
                       });
                 }
                 return const UnKnownState();
@@ -74,6 +106,38 @@ class TicketsScreen extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  void _onDismissed(
+      BuildContext context, DismissDirection direction, Ticket ticket) {
+    if (direction == DismissDirection.endToStart) {
+      BlocProvider.of<GetTicketsBloc>(context)
+          .add(DeleteTicket(ticketId: ticket.id));
+    }
+  }
+
+  Future<bool?> _confirmDismiss(
+      BuildContext context, DismissDirection direction, Ticket ticket) async {
+    if (direction == DismissDirection.endToStart) {
+      return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Delete ticket'),
+          content: const Text('Are you sure you want to delete this ticket?'),
+          actions: [
+            ElevatedButton(
+              child: const Text('Cancel'),
+              onPressed: () => Navigator.pop(context, false),
+            ),
+            ElevatedButton(
+              child: const Text('Delete'),
+              onPressed: () => Navigator.pop(context, true),
+            ),
+          ],
+        ),
+      );
+    }
+    return null;
   }
 }
 

@@ -11,6 +11,8 @@ abstract class TicketRepository {
   Future<Either<Failure, List<Ticket>>> getTickets(String releaseId);
 
   Future<Either<Failure, void>> submitTicket(Ticket ticket);
+
+  Future<Either<Failure, void>> deleteTicket(String ticketId);
 }
 
 class TicketRepositoryImpl implements TicketRepository {
@@ -65,6 +67,16 @@ class TicketRepositoryImpl implements TicketRepository {
       await ticketRef.add(ticket).onError((error, stackTrace) {
         throw (ServerFailure(error.toString()));
       });
+      return const Right(VoidCallback);
+    } else {
+      return const Left(NoInternetFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteTicket(String ticketId) async {
+    if (await networkInfo.isConnected) {
+      ticketRef.doc(ticketId).delete();
       return const Right(VoidCallback);
     } else {
       return const Left(NoInternetFailure());

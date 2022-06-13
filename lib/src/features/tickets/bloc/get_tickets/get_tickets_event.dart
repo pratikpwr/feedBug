@@ -14,3 +14,14 @@ class GetTickets extends GetTicketsEvent {
   @override
   List<Object> get props => [releaseId];
 }
+
+class DeleteTicket extends GetTicketsEvent {
+  final String ticketId;
+
+  const DeleteTicket({
+    required this.ticketId,
+  });
+
+  @override
+  List<Object> get props => [ticketId];
+}
