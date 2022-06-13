@@ -3,16 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:setuback/src/core/enums/ticket_enums.dart';
 import 'package:setuback/src/core/views/atomic/atoms/drop_down_item.dart';
 import 'package:setuback/src/core/views/atomic/atoms/textfield_item.dart';
+import 'package:setuback/src/features/releases/models/release_model.dart';
 import 'package:setuback/src/features/tickets/bloc/create_ticket/create_ticket_cubit.dart';
-import 'package:setuback/src/features/tickets/bloc/submit_ticket/submit_ticket_bloc.dart';
 import 'package:setuback/src/features/tickets/bloc/submit_ticket/submit_ticket_bloc.dart';
 
 import '../../../core/app/injection_container.dart';
 import '../../../core/views/atomic/atoms/padding.dart';
 
 class CreateTicketScreen extends StatelessWidget {
+  final Release release;
+
   const CreateTicketScreen({
     Key? key,
+    required this.release,
   }) : super(key: key);
 
   @override
@@ -33,8 +36,8 @@ class CreateTicketScreen extends StatelessWidget {
         floatingActionButton: Builder(builder: (context) {
           return FloatingActionButton(
             onPressed: () {
-              final ticket =
-                  BlocProvider.of<CreateTicketCubit>(context).createTicket();
+              final ticket = BlocProvider.of<CreateTicketCubit>(context)
+                  .createTicket(release);
 
               BlocProvider.of<SubmitTicketBloc>(context)
                   .add(SubmitTicket(ticket: ticket));
@@ -66,7 +69,6 @@ class CreateTicketScreen extends StatelessWidget {
                       title: 'Title*',
                       controller: cubit.titleController,
                       onChanged: cubit.title,
-
                     ),
                     padding16,
                     LabelledTextFieldItem(

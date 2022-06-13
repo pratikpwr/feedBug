@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/enums/ticket_enums.dart';
+import '../../../releases/models/release_model.dart';
 import '../../models/ticket_model.dart';
 
 part 'create_ticket_state.dart';
@@ -54,12 +56,13 @@ class CreateTicketCubit extends Cubit<CreateTicketState> {
     emit(state.copyWith(deviceModel: deviceModel));
   }
 
-  Ticket createTicket() {
+  Ticket createTicket(Release release) {
     return Ticket(
       id: '',
       title: state.title ?? '',
-      projectId: 'CqxKPtYot8X473GN0iND',
-      releaseId: 'je4YaTHr5lmURRqYtClw',
+      projectId: release.projectId,
+      releaseId: release.id,
+      createdAt: Timestamp.now(),
       status: TicketStatus.created,
       createdBy: 'AjFUaO5SKHz8O7uKaAuG',
       description: state.description,

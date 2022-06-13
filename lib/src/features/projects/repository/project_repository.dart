@@ -32,10 +32,15 @@ class ProjectRepositoryImpl implements ProjectRepository {
               );
 
       try {
-        List<QueryDocumentSnapshot<Project>> projects =
+        List<QueryDocumentSnapshot<Project>> result =
             await projectRef.get().then((snapshot) => snapshot.docs);
 
-        return Right(projects.map((snapshot) => snapshot.data()).toList());
+        final projects = result.map((snapshot) => snapshot.data()).toList();
+
+        if (projects.isEmpty) {
+          return const Left(NoDataFailure());
+        }
+        return Right(projects);
       } catch (e) {
         return Left(InternalFailure(e.toString()));
       }

@@ -28,17 +28,26 @@ class ReleaseRepositoryImpl implements ReleaseRepository {
                   snapshot.id,
                   snapshot.data()!,
                 ),
-                toFirestore: (project, _) => project.toJson(),
+                toFirestore: (release, _) => release.toJson(),
               );
 
-      // try {
-        List<QueryDocumentSnapshot<Release>> projects =
-            await projectRef.get().then((snapshot) => snapshot.docs);
+      try {
+        List<QueryDocumentSnapshot<Release>> result = await projectRef
+            .where('project_id', isEqualTo: projectId)
+            .orderBy('created_at', descending: true)
+            .get()
+            .then((snapshot) => snapshot.docs);
 
-        return Right(projects.map((snapshot) => snapshot.data()).toList());
-      // } catch (e) {
-      //   return Left(InternalFailure(e.toString()));
-      // }
+        final projects = result.map((snapshot) => snapshot.data()).toList();
+
+        if (projects.isEmpty) {
+          return const Left(NoDataFailure());
+        }
+
+        return Right(projects);
+      } catch (e) {
+        return Left(InternalFailure(e.toString()));
+      }
     } else {
       return const Left(NoInternetFailure());
     }

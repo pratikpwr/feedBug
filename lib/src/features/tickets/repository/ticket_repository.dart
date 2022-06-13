@@ -40,6 +40,7 @@ class TicketRepositoryImpl implements TicketRepository {
               'release_id',
               isEqualTo: releaseId,
             )
+            .orderBy('created_at', descending: true)
             .get()
             .then((snapshot) => snapshot.docs);
 

@@ -7,6 +7,7 @@ import 'package:setuback/src/core/views/atomic/atoms/icon_item.dart';
 import 'package:setuback/src/core/views/atomic/atoms/padding.dart';
 import 'package:setuback/src/core/views/widgets/loader.dart';
 import 'package:setuback/src/core/views/widgets/unknown_state.dart';
+import 'package:setuback/src/features/releases/models/release_model.dart';
 import 'package:setuback/src/features/tickets/models/ticket_model.dart';
 import 'package:setuback/src/features/tickets/screens/ticket_details_screen.dart';
 
@@ -17,10 +18,10 @@ import 'create_ticket_screen.dart';
 class TicketsScreen extends StatelessWidget {
   const TicketsScreen({
     Key? key,
-    required this.releaseId,
+    required this.release,
   }) : super(key: key);
 
-  final String releaseId;
+  final Release release;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class TicketsScreen extends StatelessWidget {
         providers: [
           BlocProvider(
               create: (context) =>
-                  GetTicketsBloc(repository: sl())..add(GetTickets(releaseId: releaseId))),
+                  GetTicketsBloc(repository: sl())..add(GetTickets(releaseId: release.id))),
         ],
         child: Scaffold(
           appBar: AppBar(
@@ -38,9 +39,9 @@ class TicketsScreen extends StatelessWidget {
             return FloatingActionButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const CreateTicketScreen();
+                  return  CreateTicketScreen(release: release,);
                 })).then((value) =>
-                    BlocProvider.of<GetTicketsBloc>(context).add(GetTickets(releaseId: releaseId)));
+                    BlocProvider.of<GetTicketsBloc>(context).add(GetTickets(releaseId: release.id)));
               },
               child: const Icon(Icons.add),
             );
@@ -65,7 +66,7 @@ class TicketsScreen extends StatelessWidget {
                   return FailureView(
                       type: state.type,
                       onRetry: () {
-                        context.read<GetTicketsBloc>().add(GetTickets(releaseId: releaseId));
+                        context.read<GetTicketsBloc>().add(GetTickets(releaseId: release.id));
                       });
                 }
                 return const UnKnownState();

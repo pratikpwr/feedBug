@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../core/enums/flavors.dart';
@@ -9,6 +10,7 @@ class Ticket extends Equatable {
   final String title;
   final String projectId;
   final String releaseId;
+  final Timestamp createdAt;
 
   final String? description;
   final String? improvement;
@@ -36,6 +38,7 @@ class Ticket extends Equatable {
     required this.title,
     required this.projectId,
     required this.releaseId,
+    required this.createdAt,
     this.description,
     this.improvement,
     this.ticketType,
@@ -70,6 +73,7 @@ class Ticket extends Equatable {
         createdBy,
         assignedTo,
         comments,
+    createdAt,
       ];
 
   factory Ticket.fromJson(String id, Map<String, Object?> json) {
@@ -78,6 +82,7 @@ class Ticket extends Equatable {
       title: json["title"]! as String,
       projectId: json["project_id"]! as String,
       releaseId: json["release_id"]! as String,
+      createdAt: json["created_at"]! as Timestamp,
       description: json["description"]?.toString(),
       improvement: json["improvement"]?.toString(),
       ticketType: TicketType.fromString(json["ticket_type"]?.toString()),
@@ -99,6 +104,7 @@ class Ticket extends Equatable {
       'project_id': projectId,
       'release_id': releaseId,
       'description': description,
+      'created_at': createdAt,
       'improvement': improvement,
       'ticket_type': ticketType?.toKey,
       'flavor': flavor?.toKey,

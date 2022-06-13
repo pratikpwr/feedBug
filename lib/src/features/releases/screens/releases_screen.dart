@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:setuback/src/core/views/widgets/loader.dart';
 import 'package:setuback/src/core/views/widgets/unknown_state.dart';
+import 'package:setuback/src/features/projects/models/project_model.dart';
 import 'package:setuback/src/features/tickets/screens/tickets_screen.dart';
 
 import '../../../core/app/injection_container.dart';
@@ -10,21 +11,21 @@ import '../bloc/get_releases/get_releases_bloc.dart';
 import '../models/release_model.dart';
 
 class ReleasesScreen extends StatelessWidget {
-  final String projectId;
+  final Project project;
 
   const ReleasesScreen({
     Key? key,
-    required this.projectId,
+    required this.project,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GetReleasesBloc(repository: sl())
-        ..add(GetReleases(projectId: projectId)),
+        ..add(GetReleases(projectId: project.id)),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Releases'),
+          title:  Text('Releases in ${project.title}', maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
         body: SingleChildScrollView(
           child: BlocBuilder<GetReleasesBloc, GetReleasesState>(
@@ -40,7 +41,7 @@ class ReleasesScreen extends StatelessWidget {
                   type: state.type,
                   onRetry: () {
                     BlocProvider.of<GetReleasesBloc>(context)
-                        .add(GetReleases(projectId: projectId));
+                        .add(GetReleases(projectId: project.id));
                   },
                 );
               }
@@ -73,7 +74,7 @@ class ReleasesWidget extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TicketsScreen(releaseId: release.id),
+                  builder: (context) => TicketsScreen(release: release),
                 ),
               );
             },
