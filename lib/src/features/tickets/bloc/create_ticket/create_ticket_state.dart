@@ -2,23 +2,16 @@ part of 'create_ticket_cubit.dart';
 
 class CreateTicketState extends Equatable {
   final String? title;
-  final titleController = TextEditingController();
   final String? description;
-  final descriptionController = TextEditingController();
   final TicketPriority? priority;
   final TicketType? ticketType;
   final String? improvement;
-  final improvementController = TextEditingController();
   final String? occurrenceModule;
-  final occurrenceModelController = TextEditingController();
   final String? occurrenceElement;
-  final occurrenceElementController = TextEditingController();
   final String? deviceName;
-  final deviceNameController = TextEditingController();
   final String? deviceModel;
-  final deviceModelController = TextEditingController();
 
-  CreateTicketState({
+  const CreateTicketState({
     this.title,
     this.description,
     this.priority,
@@ -36,7 +29,7 @@ class CreateTicketState extends Equatable {
     TicketPriority? priority,
     TicketType? ticketType,
     String? improvement,
-    String? occurrenceModel,
+    String? occurrenceModule,
     String? occurrenceElement,
     String? deviceName,
     String? deviceModel,
@@ -47,7 +40,7 @@ class CreateTicketState extends Equatable {
       priority: priority ?? this.priority,
       ticketType: ticketType ?? this.ticketType,
       improvement: improvement ?? this.improvement,
-      occurrenceModule: occurrenceModel ?? this.occurrenceModule,
+      occurrenceModule: occurrenceModule ?? this.occurrenceModule,
       occurrenceElement: occurrenceElement ?? this.occurrenceElement,
       deviceName: deviceName ?? this.deviceName,
       deviceModel: deviceModel ?? this.deviceModel,

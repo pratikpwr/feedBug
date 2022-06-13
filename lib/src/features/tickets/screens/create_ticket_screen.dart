@@ -17,123 +17,129 @@ class CreateTicketScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext ctx) {
-    return BlocProvider(
-      create: (context) => CreateTicketCubit(),
-      child: BlocProvider(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CreateTicketCubit(),
+        ),
+        BlocProvider(
           create: (context) => sl<SubmitTicketBloc>(),
-          child: Scaffold(
-            appBar: AppBar(
-              title: const Text('Create Ticket'),
-            ),
-            floatingActionButton: Builder(builder: (context) {
-              return FloatingActionButton(
-                onPressed: () {
-                  final ticket = BlocProvider.of<CreateTicketCubit>(context)
-                      .createTicket();
+        )
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Create Ticket'),
+        ),
+        floatingActionButton: Builder(builder: (context) {
+          return FloatingActionButton(
+            onPressed: () {
+              final ticket =
+                  BlocProvider.of<CreateTicketCubit>(context).createTicket();
 
-                  BlocProvider.of<SubmitTicketBloc>(context)
-                      .add(SubmitTicket(ticket: ticket));
-                },
-                child: BlocConsumer<SubmitTicketBloc, SubmitTicketState>(
-                  listener: (context, state) {
-                    if (state is SubmitTicketSuccess) {
-                      Navigator.pop(context);
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is SubmitTicketLoading) {
-                      return const CircularProgressIndicator();
-                    }
-                    return const Icon(Icons.save);
-                  },
-                ),
-              );
-            }),
-            body: BlocBuilder<CreateTicketCubit, CreateTicketState>(
+              BlocProvider.of<SubmitTicketBloc>(context)
+                  .add(SubmitTicket(ticket: ticket));
+            },
+            child: BlocConsumer<SubmitTicketBloc, SubmitTicketState>(
+              listener: (context, state) {
+                if (state is SubmitTicketSuccess) {
+                  Navigator.pop(context);
+                }
+              },
               builder: (context, state) {
-                final cubit = context.read<CreateTicketCubit>();
-                return SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      children: [
-                        LabelledTextFieldItem(
-                          title: 'Title*',
-                          controller: state.titleController,
-                          // onChanged: (value) => cubit.title(value),
-                        ),
-                        padding16,
-                        LabelledTextFieldItem(
-                          title: 'Description*',
-                          controller: state.descriptionController,
-                          // onChanged: (value) => cubit.description(value),
-                        ),
-                        padding16,
-                        DropdownItem<TicketType>(
-                          hint: 'Ticket Type*',
-                          items: TicketType.values,
-                          value: cubit.state.ticketType,
-                          onChanged: (value) {
-                            if (value != null) {
-                              cubit.ticketType(value);
-                            }
-                          },
-                          itemToString: (type) {
-                            return type.name;
-                          },
-                        ),
-                        padding16,
-                        DropdownItem<TicketPriority>(
-                          hint: 'Ticket Priority',
-                          items: TicketPriority.values,
-                          value: cubit.state.priority,
-                          onChanged: (value) {
-                            if (value != null) {
-                              cubit.priority(value);
-                            }
-                          },
-                          itemToString: (type) {
-                            return type.name;
-                          },
-                        ),
-                        padding16,
-                        LabelledTextFieldItem(
-                          title: 'Improvement / Expected',
-                          controller: state.improvementController,
-                          // onChanged: (value) => cubit.improvement(value),
-                        ),
-                        padding16,
-                        LabelledTextFieldItem(
-                          title: 'Occurrence Module',
-                          controller: state.occurrenceModelController,
-                          // onChanged: (value) => cubit.occurrenceModel(value),
-                        ),
-                        padding16,
-                        LabelledTextFieldItem(
-                          title: 'Occurrence Element',
-                          controller: state.occurrenceElementController,
-                          // onChanged: (value) => cubit.occurrenceElement(value),
-                        ),
-                        padding16,
-                        LabelledTextFieldItem(
-                          title: 'Device',
-                          controller: state.deviceNameController,
-                          // onChanged: (value) => cubit.deviceName(value),
-                        ),
-                        padding16,
-                        LabelledTextFieldItem(
-                          title: 'Device Model',
-                          controller: state.deviceModelController,
-                          // onChanged: (value) => cubit.deviceModel(value),
-                        ),
-                        padding16,
-                      ],
-                    ),
-                  ),
-                );
+                if (state is SubmitTicketLoading) {
+                  return const CircularProgressIndicator();
+                }
+                return const Icon(Icons.save);
               },
             ),
-          )),
+          );
+        }),
+        body: BlocBuilder<CreateTicketCubit, CreateTicketState>(
+          builder: (context, state) {
+            final cubit = context.read<CreateTicketCubit>();
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  children: [
+                    LabelledTextFieldItem(
+                      title: 'Title*',
+                      controller: cubit.titleController,
+                      onChanged: cubit.title,
+
+                    ),
+                    padding16,
+                    LabelledTextFieldItem(
+                      title: 'Description*',
+                      controller: cubit.descriptionController,
+                      onChanged: cubit.description,
+                    ),
+                    padding16,
+                    DropdownItem<TicketType>(
+                      hint: 'Ticket Type*',
+                      items: TicketType.values,
+                      value: cubit.state.ticketType,
+                      onChanged: (value) {
+                        if (value != null) {
+                          cubit.ticketType(value);
+                        }
+                      },
+                      itemToString: (type) {
+                        return type.name;
+                      },
+                    ),
+                    padding16,
+                    DropdownItem<TicketPriority>(
+                      hint: 'Ticket Priority',
+                      items: TicketPriority.values,
+                      value: cubit.state.priority,
+                      onChanged: (value) {
+                        if (value != null) {
+                          cubit.priority(value);
+                        }
+                      },
+                      itemToString: (type) {
+                        return type.name;
+                      },
+                    ),
+                    padding16,
+                    LabelledTextFieldItem(
+                      title: 'Improvement / Expected',
+                      controller: cubit.improvementController,
+                      onChanged: cubit.improvement,
+                    ),
+                    padding16,
+                    LabelledTextFieldItem(
+                      title: 'Occurrence Module',
+                      controller: cubit.occurrenceModelController,
+                      onChanged: cubit.occurrenceModel,
+                    ),
+                    padding16,
+                    LabelledTextFieldItem(
+                      title: 'Occurrence Element',
+                      controller: cubit.occurrenceElementController,
+                      onChanged: cubit.occurrenceElement,
+                    ),
+                    padding16,
+                    LabelledTextFieldItem(
+                      title: 'Device',
+                      controller: cubit.deviceNameController,
+                      onChanged: cubit.deviceName,
+                    ),
+                    padding16,
+                    LabelledTextFieldItem(
+                      title: 'Device Model',
+                      controller: cubit.deviceModelController,
+                      onChanged: cubit.deviceModel,
+                    ),
+                    padding16,
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

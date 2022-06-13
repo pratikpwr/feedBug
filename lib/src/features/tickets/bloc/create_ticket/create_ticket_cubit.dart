@@ -8,68 +8,68 @@ import '../../models/ticket_model.dart';
 part 'create_ticket_state.dart';
 
 class CreateTicketCubit extends Cubit<CreateTicketState> {
-  CreateTicketCubit() : super(CreateTicketState());
+  CreateTicketCubit() : super(const CreateTicketState());
+
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final improvementController = TextEditingController();
+  final occurrenceModelController = TextEditingController();
+  final occurrenceElementController = TextEditingController();
+  final deviceNameController = TextEditingController();
+  final deviceModelController = TextEditingController();
 
   void title(String title) {
-    final newState = state.copyWith(title: title);
-    emit(newState);
+    emit(state.copyWith(title: title));
   }
 
   void description(String description) {
-    final newState = state.copyWith(description: description);
-    emit(newState);
+    emit(state.copyWith(description: description));
   }
 
   void priority(TicketPriority priority) {
-    final newState = state.copyWith(priority: priority);
-    emit(newState);
+    emit(state.copyWith(priority: priority));
   }
 
   void ticketType(TicketType ticketType) {
-    final newState = state.copyWith(ticketType: ticketType);
-    emit(newState);
+    emit(state.copyWith(ticketType: ticketType));
   }
 
   void improvement(String improvement) {
-    final newState = state.copyWith(improvement: improvement);
-    emit(newState);
+    emit(state.copyWith(improvement: improvement));
   }
 
   void occurrenceModel(String occurrenceModel) {
-    final newState = state.copyWith(occurrenceModel: occurrenceModel);
-    emit(newState);
+    emit(state.copyWith(occurrenceModule: occurrenceModel));
   }
 
   void occurrenceElement(String occurrenceElement) {
-    final newState = state.copyWith(occurrenceElement: occurrenceElement);
-    emit(newState);
+    emit(state.copyWith(occurrenceElement: occurrenceElement));
   }
 
   void deviceName(String deviceName) {
-    final newState = state.copyWith(deviceName: deviceName);
-    emit(newState);
+    emit(state.copyWith(deviceName: deviceName));
   }
 
   void deviceModel(String deviceModel) {
-    final newState = state.copyWith(deviceModel: deviceModel);
-    emit(newState);
+    emit(state.copyWith(deviceModel: deviceModel));
   }
 
   Ticket createTicket() {
     return Ticket(
       id: '',
-      title: state.titleController.text,
+      title: state.title ?? '',
       projectId: 'CqxKPtYot8X473GN0iND',
+      releaseId: 'je4YaTHr5lmURRqYtClw',
       status: TicketStatus.created,
       createdBy: 'AjFUaO5SKHz8O7uKaAuG',
-      description: state.descriptionController.text,
+      description: state.description,
       priority: state.priority,
       ticketType: state.ticketType,
-      improvement: state.improvementController.text,
-      occurrenceModule: state.occurrenceModelController.text,
-      occurrenceElement: state.occurrenceElementController.text,
-      device: state.deviceNameController.text,
-      deviceModel: state.deviceModelController.text,
+      improvement: state.improvement,
+      occurrenceModule: state.occurrenceModule,
+      occurrenceElement: state.occurrenceElement,
+      device: state.deviceName,
+      deviceModel: state.deviceModel,
     );
   }
 }

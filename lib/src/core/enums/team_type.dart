@@ -1,5 +1,5 @@
 enum TeamType {
-  managment,
+  management,
   product,
   design,
   frontend,
@@ -12,8 +12,8 @@ enum TeamType {
 
   static fromString(String teamType) {
     switch (teamType) {
-      case 'managment':
-        return TeamType.managment;
+      case 'management':
+        return TeamType.management;
       case 'product':
         return TeamType.product;
       case 'design':
@@ -33,7 +33,32 @@ enum TeamType {
       case 'lowcode':
         return TeamType.lowcode;
       default:
-        return TeamType.managment;
+        return TeamType.management;
+    }
+  }
+  
+  String get toKey {
+    switch (this) {
+      case TeamType.management:
+        return 'management';
+      case TeamType.product:
+        return 'product';
+      case TeamType.design:
+        return 'design';
+      case TeamType.frontend:
+        return 'frontend';
+      case TeamType.mobile:
+        return 'mobile';
+      case TeamType.backend:
+        return 'backend';
+      case TeamType.cs:
+        return 'cs';
+      case TeamType.finance:
+        return 'finance';
+      case TeamType.testing:
+        return 'testing';
+      case TeamType.lowcode:
+        return 'lowcode';
     }
   }
 }

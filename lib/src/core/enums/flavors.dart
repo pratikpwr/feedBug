@@ -15,4 +15,15 @@ enum Flavor {
         return null;
     }
   }
+
+  String get toKey {
+    switch (this) {
+      case Flavor.dev:
+        return 'dev';
+      case Flavor.qa:
+        return 'qa';
+      case Flavor.prod:
+        return 'prod';
+    }
+  }
 }

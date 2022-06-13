@@ -18,6 +18,17 @@ enum TicketType {
     }
   }
 
+  String get toKey {
+    switch (this) {
+      case TicketType.bug:
+        return 'bug';
+      case TicketType.improvement:
+        return 'improvement';
+      case TicketType.feedback:
+        return 'feedback';
+    }
+  }
+
   String get icon {
     switch (this) {
       case TicketType.bug:
@@ -26,8 +37,6 @@ enum TicketType {
         return Assets.improvement;
       case TicketType.feedback:
         return Assets.feedback;
-      default:
-        throw Exception('Unknown TicketType: $this');
     }
   }
 }
@@ -39,7 +48,7 @@ enum TicketPriority {
   low,
   lowest;
 
-  static TicketPriority? fromString(String? str) {
+  static TicketPriority? fromKey(String? str) {
     switch (str) {
       case 'highest':
         return TicketPriority.highest;
@@ -53,6 +62,21 @@ enum TicketPriority {
         return TicketPriority.lowest;
       default:
         return null;
+    }
+  }
+
+  String get toKey {
+    switch (this) {
+      case TicketPriority.highest:
+        return 'highest';
+      case TicketPriority.high:
+        return 'high';
+      case TicketPriority.medium:
+        return 'medium';
+      case TicketPriority.low:
+        return 'low';
+      case TicketPriority.lowest:
+        return 'lowest';
     }
   }
 
@@ -96,6 +120,23 @@ enum TicketStatus {
         return TicketStatus.done;
       default:
         throw Exception('Unknown TicketStatus: $str');
+    }
+  }
+
+  String get toKey {
+    switch (this) {
+      case TicketStatus.created:
+        return 'created';
+      case TicketStatus.willDo:
+        return 'willDo';
+      case TicketStatus.notDoing:
+        return 'notDoing';
+      case TicketStatus.inProgress:
+        return 'inProgress';
+      case TicketStatus.nextTime:
+        return 'nextTime';
+      case TicketStatus.done:
+        return 'done';
     }
   }
 }

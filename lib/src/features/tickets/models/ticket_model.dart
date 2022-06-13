@@ -8,6 +8,7 @@ class Ticket extends Equatable {
   final String id;
   final String title;
   final String projectId;
+  final String releaseId;
 
   final String? description;
   final String? improvement;
@@ -34,6 +35,7 @@ class Ticket extends Equatable {
     required this.id,
     required this.title,
     required this.projectId,
+    required this.releaseId,
     this.description,
     this.improvement,
     this.ticketType,
@@ -54,6 +56,7 @@ class Ticket extends Equatable {
         id,
         title,
         projectId,
+        releaseId,
         description,
         improvement,
         ticketType,
@@ -74,11 +77,12 @@ class Ticket extends Equatable {
       id: id,
       title: json["title"]! as String,
       projectId: json["project_id"]! as String,
+      releaseId: json["release_id"]! as String,
       description: json["description"]?.toString(),
       improvement: json["improvement"]?.toString(),
       ticketType: TicketType.fromString(json["ticket_type"]?.toString()),
       flavor: Flavor.fromString(json["flavor"]?.toString()),
-      priority: TicketPriority.fromString(json["priority"]?.toString()),
+      priority: TicketPriority.fromKey(json["priority"]?.toString()),
       status: TicketStatus.created,
       occurrenceModule: json["occurrence_module"]?.toString(),
       occurrenceElement: json["occurrence_element"]?.toString(),
@@ -91,15 +95,14 @@ class Ticket extends Equatable {
 
   Map<String, Object?> toJson() {
     return {
-      'id': id,
       'title': title,
       'project_id': projectId,
       'description': description,
       'improvement': improvement,
-      'ticket_type': ticketType?.toString(),
-      'flavor': flavor?.toString(),
-      'priority': priority?.toString(),
-      'status': status.toString(),
+      'ticket_type': ticketType?.toKey,
+      'flavor': flavor?.toKey,
+      'priority': priority?.toKey,
+      'status': status.toKey,
       'occurrence_module': occurrenceModule,
       'occurrence_element': occurrenceElement,
       'device': device,
