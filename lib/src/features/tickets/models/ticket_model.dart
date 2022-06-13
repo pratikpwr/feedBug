@@ -97,6 +97,7 @@ class Ticket extends Equatable {
     return {
       'title': title,
       'project_id': projectId,
+      'release_id': releaseId,
       'description': description,
       'improvement': improvement,
       'ticket_type': ticketType?.toKey,

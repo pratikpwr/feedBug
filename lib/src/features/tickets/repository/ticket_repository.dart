@@ -15,7 +15,7 @@ import '../../../core/network/firebase_client.dart';
 import '../../../core/network/network_info.dart';
 
 abstract class TicketRepository {
-  Future<Either<Failure, List<Ticket>>> getTickets();
+  Future<Either<Failure, List<Ticket>>> getTickets(String releaseId);
 
   Future<Either<Failure, void>> submitTicket(Ticket ticket);
 }
@@ -39,16 +39,27 @@ class TicketRepositoryImpl implements TicketRepository {
           );
 
   @override
-  Future<Either<Failure, List<Ticket>>> getTickets() async {
+  Future<Either<Failure, List<Ticket>>> getTickets(String releaseId) async {
     if (await networkInfo.isConnected) {
-      try {
-        List<QueryDocumentSnapshot<Ticket>> tickets =
-            await ticketRef.get().then((snapshot) => snapshot.docs);
+      // try {
+      List<QueryDocumentSnapshot<Ticket>> result = await ticketRef
+          .where(
+            'release_id',
+            isEqualTo: releaseId,
+          )
+          .get()
+          .then((snapshot) => snapshot.docs);
 
-        return Right(tickets.map((snapshot) => snapshot.data()).toList());
-      } catch (e) {
-        return Left(InternalFailure(e.toString()));
+      final tickets = result.map((snapshot) => snapshot.data()).toList();
+
+      if (tickets.isEmpty) {
+        return const Left(NoDataFailure());
       }
+
+      return Right(tickets);
+      // } catch (e) {
+      //   return Left(InternalFailure(e.toString()));
+      // }
     } else {
       return const Left(NoInternetFailure());
     }

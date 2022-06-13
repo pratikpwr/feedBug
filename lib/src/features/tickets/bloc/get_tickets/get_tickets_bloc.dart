@@ -24,7 +24,7 @@ class GetTicketsBloc extends Bloc<GetTicketsEvent, GetTicketsState> {
   ) async {
     emit(GetTicketsLoading());
 
-    final result = await repository.getTickets();
+    final result = await repository.getTickets(event.releaseId);
 
     result.fold(
       (failure) => emit(GetTicketsFailure(FailureType.fromFailure(failure))),

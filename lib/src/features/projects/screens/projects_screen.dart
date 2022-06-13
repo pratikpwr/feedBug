@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:setuback/src/core/views/widgets/loader.dart';
 import 'package:setuback/src/core/views/widgets/unknown_state.dart';
 import 'package:setuback/src/features/projects/bloc/get_projects/get_projects_bloc.dart';
+import 'package:setuback/src/features/releases/screens/releases_screen.dart';
 import 'package:setuback/src/features/tickets/screens/tickets_screen.dart';
 
 import '../../../core/views/widgets/failure_view.dart';
@@ -68,7 +69,7 @@ class ProjectsWidget extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TicketsScreen(releaseId: project.id),
+                  builder: (context) => ReleasesScreen(projectId: project.id),
                 ),
               );
             },

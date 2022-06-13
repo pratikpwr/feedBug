@@ -5,6 +5,12 @@ abstract class GetTicketsEvent extends Equatable {
 }
 
 class GetTickets extends GetTicketsEvent {
+  final String releaseId;
+
+  const GetTickets({
+    required this.releaseId,
+  });
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [releaseId];
 }
