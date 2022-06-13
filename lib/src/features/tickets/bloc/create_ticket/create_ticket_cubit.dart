@@ -10,7 +10,13 @@ import '../../models/ticket_model.dart';
 part 'create_ticket_state.dart';
 
 class CreateTicketCubit extends Cubit<CreateTicketState> {
-  CreateTicketCubit() : super(const CreateTicketState());
+  CreateTicketCubit({
+    this.ticket,
+  }) : super(const CreateTicketState()) {
+    _populateTicket(ticket);
+  }
+
+  final Ticket? ticket;
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -56,9 +62,34 @@ class CreateTicketCubit extends Cubit<CreateTicketState> {
     emit(state.copyWith(deviceModel: deviceModel));
   }
 
+  void _populateTicket(Ticket? ticket) {
+    if (ticket != null) {
+      final newState = state.copyWith(
+        title: ticket.title,
+        description: ticket.description,
+        priority: ticket.priority,
+        ticketType: ticket.ticketType,
+        improvement: ticket.improvement,
+        occurrenceModule: ticket.occurrenceModule,
+        occurrenceElement: ticket.occurrenceElement,
+        deviceName: ticket.device,
+        deviceModel: ticket.deviceModel,
+      );
+
+      titleController.text = ticket.title;
+      descriptionController.text = ticket.description ?? '';
+      improvementController.text = ticket.improvement ?? '';
+      occurrenceModelController.text = ticket.occurrenceModule ?? '';
+      occurrenceElementController.text = ticket.occurrenceElement ?? '';
+      deviceNameController.text = ticket.device ?? '';
+      deviceModelController.text = ticket.deviceModel ?? '';
+      emit(newState);
+    }
+  }
+
   Ticket createTicket(Release release) {
     return Ticket(
-      id: '',
+      id: ticket?.id ?? '',
       title: state.title ?? '',
       projectId: release.projectId,
       releaseId: release.id,

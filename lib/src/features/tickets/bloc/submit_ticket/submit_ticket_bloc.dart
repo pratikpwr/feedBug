@@ -13,6 +13,7 @@ part 'submit_ticket_state.dart';
 class SubmitTicketBloc extends Bloc<SubmitTicketEvent, SubmitTicketState> {
   SubmitTicketBloc({required this.repository,}) : super(SubmitTicketInitial()) {
     on<SubmitTicket>(_submitTicketEvent);
+    on<UpdateTicket>(_updateTicketEvent);
   }
 
   final TicketRepository repository;
@@ -21,6 +22,16 @@ class SubmitTicketBloc extends Bloc<SubmitTicketEvent, SubmitTicketState> {
     emit(SubmitTicketLoading());
 
     final result = await repository.submitTicket(event.ticket);
+
+    result.fold(
+      (failure) => emit(SubmitTicketFailure(FailureType.fromFailure(failure))),
+      (ticket) => emit(SubmitTicketSuccess()),
+    );
+  }
+  _updateTicketEvent(UpdateTicket event, Emitter<SubmitTicketState> emit) async {
+    emit(SubmitTicketLoading());
+
+    final result = await repository.updateTicket(event.ticket);
 
     result.fold(
       (failure) => emit(SubmitTicketFailure(FailureType.fromFailure(failure))),

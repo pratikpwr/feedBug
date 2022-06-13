@@ -9,10 +9,9 @@ import 'package:setuback/src/core/views/widgets/loader.dart';
 import 'package:setuback/src/core/views/widgets/unknown_state.dart';
 import 'package:setuback/src/features/releases/models/release_model.dart';
 import 'package:setuback/src/features/tickets/models/ticket_model.dart';
-import 'package:setuback/src/features/tickets/screens/ticket_details_screen.dart';
 
 import '../../../core/views/widgets/failure_view.dart';
-import '../bloc/get_tickets/get_tickets_bloc.dart';
+import '../bloc/tickets_bloc/tickets_bloc.dart';
 import 'create_ticket_screen.dart';
 
 class TicketsScreen extends StatelessWidget {
@@ -28,7 +27,7 @@ class TicketsScreen extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider(
-              create: (context) => GetTicketsBloc(repository: sl())
+              create: (context) => TicketsBloc(repository: sl())
                 ..add(GetTickets(releaseId: release.id))),
         ],
         child: Scaffold(
@@ -42,14 +41,14 @@ class TicketsScreen extends StatelessWidget {
                   return CreateTicketScreen(
                     release: release,
                   );
-                })).then((value) => BlocProvider.of<GetTicketsBloc>(context)
+                })).then((value) => BlocProvider.of<TicketsBloc>(context)
                     .add(GetTickets(releaseId: release.id)));
               },
               child: const Icon(Icons.add),
             );
           }),
           body: SingleChildScrollView(
-            child: BlocBuilder<GetTicketsBloc, GetTicketsState>(
+            child: BlocBuilder<TicketsBloc, TicketsState>(
               builder: (context, state) {
                 if (state is GetTicketsLoading) {
                   return const Loader();
@@ -87,7 +86,10 @@ class TicketsScreen extends StatelessWidget {
                           direction,
                           state.tickets[index],
                         ),
-                        child: TicketsWidget(ticket: state.tickets[index]),
+                        child: TicketsWidget(
+                          ticket: state.tickets[index],
+                          release: release,
+                        ),
                       );
                     },
                   );
@@ -97,7 +99,7 @@ class TicketsScreen extends StatelessWidget {
                       type: state.type,
                       onRetry: () {
                         context
-                            .read<GetTicketsBloc>()
+                            .read<TicketsBloc>()
                             .add(GetTickets(releaseId: release.id));
                       });
                 }
@@ -111,7 +113,7 @@ class TicketsScreen extends StatelessWidget {
   void _onDismissed(
       BuildContext context, DismissDirection direction, Ticket ticket) {
     if (direction == DismissDirection.endToStart) {
-      BlocProvider.of<GetTicketsBloc>(context)
+      BlocProvider.of<TicketsBloc>(context)
           .add(DeleteTicket(ticketId: ticket.id));
     }
   }
@@ -143,19 +145,20 @@ class TicketsScreen extends StatelessWidget {
 
 class TicketsWidget extends StatelessWidget {
   final Ticket ticket;
+  final Release release;
 
-  const TicketsWidget({Key? key, required this.ticket}) : super(key: key);
+  const TicketsWidget({
+    Key? key,
+    required this.ticket,
+    required this.release,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CardItem(
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.only(bottom: 8),
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return TicketDetailsScreen(ticket: ticket);
-        }));
-      },
+      onTap: () => _editTicket(context),
       child: Row(
         children: [
           if (ticket.ticketType != null)
@@ -210,9 +213,19 @@ class TicketsWidget extends StatelessWidget {
                 ],
               )
             ],
-          ))
+          )),
         ],
       ),
     );
+  }
+
+  void _editTicket(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return CreateTicketScreen(
+        ticket: ticket,
+        release: release,
+      );
+    })).then((value) => BlocProvider.of<TicketsBloc>(context)
+        .add(GetTickets(releaseId: release.id)));
   }
 }

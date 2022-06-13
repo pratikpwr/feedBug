@@ -13,6 +13,8 @@ abstract class TicketRepository {
   Future<Either<Failure, void>> submitTicket(Ticket ticket);
 
   Future<Either<Failure, void>> deleteTicket(String ticketId);
+
+  Future<Either<Failure, void>> updateTicket(Ticket ticket);
 }
 
 class TicketRepositoryImpl implements TicketRepository {
@@ -77,6 +79,16 @@ class TicketRepositoryImpl implements TicketRepository {
   Future<Either<Failure, void>> deleteTicket(String ticketId) async {
     if (await networkInfo.isConnected) {
       ticketRef.doc(ticketId).delete();
+      return const Right(VoidCallback);
+    } else {
+      return const Left(NoInternetFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateTicket(Ticket ticket) async {
+    if (await networkInfo.isConnected) {
+      ticketRef.doc(ticket.id).update(ticket.toJson());
       return const Right(VoidCallback);
     } else {
       return const Left(NoInternetFailure());

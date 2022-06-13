@@ -12,3 +12,12 @@ class SubmitTicket extends SubmitTicketEvent {
   @override
   List<Object> get props => [ticket];
 }
+
+class UpdateTicket extends SubmitTicketEvent {
+  final Ticket ticket;
+
+  const UpdateTicket({required this.ticket});
+
+  @override
+  List<Object> get props => [ticket];
+}

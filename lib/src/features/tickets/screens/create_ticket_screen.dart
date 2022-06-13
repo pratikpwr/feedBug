@@ -6,24 +6,29 @@ import 'package:setuback/src/core/views/atomic/atoms/textfield_item.dart';
 import 'package:setuback/src/features/releases/models/release_model.dart';
 import 'package:setuback/src/features/tickets/bloc/create_ticket/create_ticket_cubit.dart';
 import 'package:setuback/src/features/tickets/bloc/submit_ticket/submit_ticket_bloc.dart';
+import 'package:setuback/src/features/tickets/models/ticket_model.dart';
 
 import '../../../core/app/injection_container.dart';
 import '../../../core/views/atomic/atoms/padding.dart';
 
 class CreateTicketScreen extends StatelessWidget {
   final Release release;
+  final Ticket? ticket;
 
   const CreateTicketScreen({
     Key? key,
     required this.release,
+    this.ticket,
   }) : super(key: key);
+
+  bool get isEdit => ticket != null;
 
   @override
   Widget build(BuildContext ctx) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => CreateTicketCubit(),
+          create: (context) => CreateTicketCubit(ticket: ticket),
         ),
         BlocProvider(
           create: (context) => sl<SubmitTicketBloc>(),
@@ -31,16 +36,19 @@ class CreateTicketScreen extends StatelessWidget {
       ],
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Create Ticket'),
+          title: Text(isEdit ? 'Edit Ticket' : 'Create Ticket'),
         ),
         floatingActionButton: Builder(builder: (context) {
           return FloatingActionButton(
             onPressed: () {
-              final ticket = BlocProvider.of<CreateTicketCubit>(context)
+              final newTicket = BlocProvider.of<CreateTicketCubit>(context)
                   .createTicket(release);
 
-              BlocProvider.of<SubmitTicketBloc>(context)
-                  .add(SubmitTicket(ticket: ticket));
+              isEdit
+                  ? BlocProvider.of<SubmitTicketBloc>(context)
+                      .add(UpdateTicket(ticket: newTicket))
+                  : BlocProvider.of<SubmitTicketBloc>(context)
+                      .add(SubmitTicket(ticket: newTicket));
             },
             child: BlocConsumer<SubmitTicketBloc, SubmitTicketState>(
               listener: (context, state) {
