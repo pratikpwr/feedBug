@@ -11,6 +11,8 @@ class Release extends Equatable {
   final Timestamp createdAt;
   final bool isActive;
   final Flavor flavor;
+  final String? buildLink;
+  final String createdBy;
 
   const Release({
     required this.id,
@@ -20,6 +22,8 @@ class Release extends Equatable {
     required this.createdAt,
     required this.isActive,
     required this.flavor,
+    this.buildLink,
+    required this.createdBy,
   });
 
   @override
@@ -31,6 +35,7 @@ class Release extends Equatable {
         createdAt,
         isActive,
         flavor,
+        buildLink,
       ];
 
   Map<String, dynamic> toJson() {
@@ -41,6 +46,8 @@ class Release extends Equatable {
       'created_at': createdAt,
       'is_active': isActive,
       'flavor': flavor.toKey,
+      'build_link': buildLink,
+      'created_by': createdBy,
     };
   }
 
@@ -49,10 +56,12 @@ class Release extends Equatable {
       id: id,
       title: json['title'] as String,
       projectId: json['project_id'] as String,
-      description: json['description'] as String,
+      description: json['description']?.toString(),
       createdAt: json['created_at'] as Timestamp,
       isActive: json['is_active'] as bool,
       flavor: Flavor.fromString(json['flavor'] as String) ?? Flavor.dev,
+      buildLink: json['build_link']?.toString(),
+      createdBy: json['created_by'] as String,
     );
   }
 }
