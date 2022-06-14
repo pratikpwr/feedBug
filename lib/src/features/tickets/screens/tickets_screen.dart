@@ -59,37 +59,9 @@ class TicketsScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      return Dismissible(
-                        key: Key(state.tickets[index].id.toString()),
-                        background: Container(
-                          padding: const EdgeInsets.all(24),
-                          margin: const EdgeInsets.only(bottom: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.red[200],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              padding8,
-                              Icon(Icons.delete),
-                            ],
-                          ),
-                        ),
-                        onDismissed: (direction) => _onDismissed(
-                          context,
-                          direction,
-                          state.tickets[index],
-                        ),
-                        confirmDismiss: (direction) => _confirmDismiss(
-                          context,
-                          direction,
-                          state.tickets[index],
-                        ),
-                        child: TicketsWidget(
-                          ticket: state.tickets[index],
-                          release: release,
-                        ),
+                      return TicketsWidget(
+                        ticket: state.tickets[index],
+                        release: release,
                       );
                     },
                   );
@@ -109,9 +81,19 @@ class TicketsScreen extends StatelessWidget {
           ),
         ));
   }
+}
 
-  void _onDismissed(
-      BuildContext context, DismissDirection direction, Ticket ticket) {
+class TicketsWidget extends StatelessWidget {
+  final Ticket ticket;
+  final Release release;
+
+  const TicketsWidget({
+    Key? key,
+    required this.ticket,
+    required this.release,
+  }) : super(key: key);
+
+  void _onDismissed(BuildContext context, DismissDirection direction) {
     if (direction == DismissDirection.endToStart) {
       BlocProvider.of<TicketsBloc>(context)
           .add(DeleteTicket(ticketId: ticket.id));
@@ -119,7 +101,7 @@ class TicketsScreen extends StatelessWidget {
   }
 
   Future<bool?> _confirmDismiss(
-      BuildContext context, DismissDirection direction, Ticket ticket) async {
+      BuildContext context, DismissDirection direction) async {
     if (direction == DismissDirection.endToStart) {
       return showDialog(
         context: context,
@@ -141,80 +123,95 @@ class TicketsScreen extends StatelessWidget {
     }
     return null;
   }
-}
-
-class TicketsWidget extends StatelessWidget {
-  final Ticket ticket;
-  final Release release;
-
-  const TicketsWidget({
-    Key? key,
-    required this.ticket,
-    required this.release,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return CardItem(
-      padding: const EdgeInsets.all(12),
-      margin: const EdgeInsets.only(bottom: 8),
-      onTap: () => _editTicket(context),
-      child: Row(
-        children: [
-          if (ticket.ticketType != null)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: IconItem(
-                ticket.ticketType!.icon,
-                size: 30,
-              ),
+    return Container(
+      padding: EdgeInsets.zero,
+      margin: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: context.theme.colorScheme.errorContainer,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Dismissible(
+        key: Key(ticket.id),
+        background: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Icon(
+              Icons.delete,
+              color: context.theme.colorScheme.onErrorContainer,
             ),
-          padding12,
-          Expanded(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            padding16,
+          ],
+        ),
+        onDismissed: (direction) => _onDismissed(
+          context,
+          direction,
+        ),
+        confirmDismiss: (direction) => _confirmDismiss(
+          context,
+          direction,
+        ),
+        child: CardItem(
+          padding: const EdgeInsets.all(12),
+          margin: EdgeInsets.zero,
+          onTap: () => _editTicket(context),
+          child: Row(
             children: [
-              Text(
-                ticket.title,
-                maxLines: 2,
-                style: context.theme.textTheme.titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w600),
-              ),
-              Text(
-                ticket.description ?? '',
-                maxLines: 3,
-                style: context.theme.textTheme.bodyLarge,
-              ),
-              if (ticket.priority != null)
-                Row(
+              if (ticket.ticketType != null) ...[
+                IconItem(
+                  ticket.ticketType!.icon,
+                  size: 30,
+                ),
+                padding8,
+              ],
+              padding12,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Priority',
-                      style: context.theme.textTheme.labelLarge,
+                      ticket.title,
+                      maxLines: 2,
+                      style: context.theme.textTheme.titleMedium
+                          ?.copyWith(fontWeight: FontWeight.w600),
                     ),
-                    padding8,
-                    IconItem(
-                      ticket.priority!.iconPath,
-                      type: IconType.svg,
+                    Text(
+                      ticket.description ?? '',
+                      maxLines: 2,
+                      style: context.theme.textTheme.bodyLarge,
+                      overflow: TextOverflow.ellipsis,
                     ),
+                    Row(
+                      children: [
+                        Text(
+                          'Status',
+                          style: context.theme.textTheme.labelLarge!.copyWith(
+                            color:
+                                context.theme.colorScheme.onSecondaryContainer,
+                          ),
+                        ),
+                        padding8,
+                        Text(
+                          ticket.status.name.toUpperCase(),
+                          style: context.theme.textTheme.bodyMedium,
+                        ),
+                      ],
+                    )
                   ],
                 ),
-              Row(
-                children: [
-                  Text(
-                    'Status',
-                    style: context.theme.textTheme.labelLarge,
-                  ),
-                  padding8,
-                  Text(
-                    ticket.status.name.toUpperCase(),
-                    style: context.theme.textTheme.bodyMedium,
-                  ),
-                ],
-              )
+              ),
+              if (ticket.priority != null) ...[
+                padding8,
+                IconItem(
+                  ticket.priority!.iconPath,
+                  type: IconType.svg,
+                ),
+              ],
             ],
-          )),
-        ],
+          ),
+        ),
       ),
     );
   }

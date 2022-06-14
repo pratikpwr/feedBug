@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:setuback/src/core/extension/context_extension.dart';
 
 class CardItem extends StatelessWidget {
   const CardItem({
@@ -17,9 +18,21 @@ class CardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
+      clipBehavior: Clip.antiAlias,
       margin: margin,
-      elevation: 1,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: context.theme.colorScheme.secondaryContainer,
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: context.theme.colorScheme.shadow.withOpacity(0.15),
+        //     blurRadius: 8,
+        //     spreadRadius: 0,
+        //     offset: const Offset(0, 0),
+        //   ),
+        // ],
+      ),
       child: InkWell(
         onTap: onTap,
         child: Padding(
