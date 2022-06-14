@@ -18,8 +18,6 @@ final sl = GetIt.instance;
 Future<void> init() async {
   // bloc
   sl.registerFactory<GetProjectsBloc>(() => GetProjectsBloc(repository: sl()));
-  sl.registerFactory<SubmitTicketBloc>(
-      () => SubmitTicketBloc(repository: sl()));
 
   // repository
   sl.registerLazySingleton<ProjectRepository>(() => ProjectRepositoryImpl(

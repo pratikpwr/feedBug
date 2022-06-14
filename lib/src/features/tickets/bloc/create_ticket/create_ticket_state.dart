@@ -3,6 +3,7 @@ part of 'create_ticket_cubit.dart';
 class CreateTicketState extends Equatable {
   final String? title;
   final String? description;
+  final TicketStatus? status;
   final TicketPriority? priority;
   final TicketType? ticketType;
   final String? improvement;
@@ -10,17 +11,20 @@ class CreateTicketState extends Equatable {
   final String? occurrenceElement;
   final String? deviceName;
   final String? deviceModel;
+  final String? mediaLink;
 
   const CreateTicketState({
     this.title,
     this.description,
     this.priority,
     this.ticketType,
+    this.status,
     this.improvement,
     this.occurrenceModule,
     this.occurrenceElement,
     this.deviceName,
     this.deviceModel,
+    this.mediaLink,
   });
 
   CreateTicketState copyWith({
@@ -28,22 +32,26 @@ class CreateTicketState extends Equatable {
     String? description,
     TicketPriority? priority,
     TicketType? ticketType,
+    TicketStatus? status,
     String? improvement,
     String? occurrenceModule,
     String? occurrenceElement,
     String? deviceName,
     String? deviceModel,
+    String? mediaLink,
   }) {
     return CreateTicketState(
       title: title ?? this.title,
       description: description ?? this.description,
       priority: priority ?? this.priority,
       ticketType: ticketType ?? this.ticketType,
+      status: status ?? this.status,
       improvement: improvement ?? this.improvement,
       occurrenceModule: occurrenceModule ?? this.occurrenceModule,
       occurrenceElement: occurrenceElement ?? this.occurrenceElement,
       deviceName: deviceName ?? this.deviceName,
       deviceModel: deviceModel ?? this.deviceModel,
+      mediaLink: mediaLink ?? this.mediaLink,
     );
   }
 
@@ -53,10 +61,12 @@ class CreateTicketState extends Equatable {
         description,
         priority,
         ticketType,
+        status,
         improvement,
         occurrenceModule,
         occurrenceElement,
         deviceName,
         deviceModel,
+        mediaLink,
       ];
 }

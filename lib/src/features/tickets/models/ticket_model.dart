@@ -18,7 +18,7 @@ class Ticket extends Equatable {
   final TicketType? ticketType;
   final Flavor? flavor;
   final TicketPriority? priority;
-  final TicketStatus status;
+  final TicketStatus? status;
 
   final String? occurrenceModule;
   final String? occurrenceElement;
@@ -30,6 +30,8 @@ class Ticket extends Equatable {
   final String? assignedTo;
 
   final List<Comment> comments;
+
+  final String? mediaLink;
 
   // media attachments
 
@@ -44,7 +46,7 @@ class Ticket extends Equatable {
     this.ticketType,
     this.flavor,
     this.priority,
-    required this.status,
+    this.status,
     this.occurrenceModule,
     this.occurrenceElement,
     this.device,
@@ -52,6 +54,7 @@ class Ticket extends Equatable {
     required this.createdBy,
     this.assignedTo,
     this.comments = const [],
+    this.mediaLink,
   });
 
   @override
@@ -73,6 +76,7 @@ class Ticket extends Equatable {
         createdBy,
         assignedTo,
         comments,
+        mediaLink,
         createdAt,
       ];
 
@@ -88,13 +92,14 @@ class Ticket extends Equatable {
       ticketType: TicketType.fromString(json["ticket_type"]?.toString()),
       flavor: Flavor.fromString(json["flavor"]?.toString()),
       priority: TicketPriority.fromKey(json["priority"]?.toString()),
-      status: TicketStatus.created,
+      status: TicketStatus.fromKey(json["status"]?.toString()),
       occurrenceModule: json["occurrence_module"]?.toString(),
       occurrenceElement: json["occurrence_element"]?.toString(),
       device: json["device"]?.toString(),
       deviceModel: json["device_model"]?.toString(),
       createdBy: json["created_by"]?.toString() ?? '',
       assignedTo: json["assigned_to"]?.toString() ?? '',
+      mediaLink: json["media_link"]?.toString(),
     );
   }
 
@@ -109,13 +114,14 @@ class Ticket extends Equatable {
       'ticket_type': ticketType?.toKey,
       'flavor': flavor?.toKey,
       'priority': priority?.toKey,
-      'status': status.toKey,
+      'status': status?.toKey,
       'occurrence_module': occurrenceModule,
       'occurrence_element': occurrenceElement,
       'device': device,
       'device_model': deviceModel,
       'created_by': createdBy,
       'assigned_to': assignedTo,
+      'media_link': mediaLink,
     };
   }
 }

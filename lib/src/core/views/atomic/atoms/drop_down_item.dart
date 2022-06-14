@@ -44,6 +44,8 @@ class DropdownItem<T> extends StatelessWidget {
 
   Widget _buildDropDown() {
     return InputDecorator(
+      expands: false,
+
       decoration: const InputDecoration(
           border: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(4.0)),

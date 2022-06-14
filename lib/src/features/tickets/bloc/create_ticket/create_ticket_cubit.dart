@@ -25,6 +25,7 @@ class CreateTicketCubit extends Cubit<CreateTicketState> {
   final occurrenceElementController = TextEditingController();
   final deviceNameController = TextEditingController();
   final deviceModelController = TextEditingController();
+  final mediaLinkController = TextEditingController();
 
   void title(String title) {
     emit(state.copyWith(title: title));
@@ -36,6 +37,10 @@ class CreateTicketCubit extends Cubit<CreateTicketState> {
 
   void priority(TicketPriority priority) {
     emit(state.copyWith(priority: priority));
+  }
+
+  void status(TicketStatus status) {
+    emit(state.copyWith(status: status));
   }
 
   void ticketType(TicketType ticketType) {
@@ -62,6 +67,10 @@ class CreateTicketCubit extends Cubit<CreateTicketState> {
     emit(state.copyWith(deviceModel: deviceModel));
   }
 
+  void mediaLink(String mediaLink) {
+    emit(state.copyWith(mediaLink: mediaLink));
+  }
+
   void _populateTicket(Ticket? ticket) {
     if (ticket != null) {
       final newState = state.copyWith(
@@ -69,11 +78,13 @@ class CreateTicketCubit extends Cubit<CreateTicketState> {
         description: ticket.description,
         priority: ticket.priority,
         ticketType: ticket.ticketType,
+        status: ticket.status,
         improvement: ticket.improvement,
         occurrenceModule: ticket.occurrenceModule,
         occurrenceElement: ticket.occurrenceElement,
         deviceName: ticket.device,
         deviceModel: ticket.deviceModel,
+        mediaLink: ticket.mediaLink,
       );
 
       titleController.text = ticket.title;
@@ -83,6 +94,7 @@ class CreateTicketCubit extends Cubit<CreateTicketState> {
       occurrenceElementController.text = ticket.occurrenceElement ?? '';
       deviceNameController.text = ticket.device ?? '';
       deviceModelController.text = ticket.deviceModel ?? '';
+      mediaLinkController.text = ticket.mediaLink ?? '';
       emit(newState);
     }
   }
@@ -93,8 +105,8 @@ class CreateTicketCubit extends Cubit<CreateTicketState> {
       title: state.title ?? '',
       projectId: release.projectId,
       releaseId: release.id,
-      createdAt: Timestamp.now(),
-      status: TicketStatus.created,
+      createdAt: ticket?.createdAt ?? Timestamp.now(),
+      status: state.status,
       createdBy: 'AjFUaO5SKHz8O7uKaAuG',
       description: state.description,
       priority: state.priority,
@@ -104,6 +116,7 @@ class CreateTicketCubit extends Cubit<CreateTicketState> {
       occurrenceElement: state.occurrenceElement,
       device: state.deviceName,
       deviceModel: state.deviceModel,
+      mediaLink: state.mediaLink,
     );
   }
 }

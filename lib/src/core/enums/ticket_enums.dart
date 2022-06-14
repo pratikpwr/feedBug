@@ -104,7 +104,7 @@ enum TicketStatus {
   nextTime,
   done;
 
-  static TicketStatus fromString(String str) {
+  static TicketStatus? fromKey(String? str) {
     switch (str) {
       case 'created':
         return TicketStatus.created;
@@ -119,7 +119,7 @@ enum TicketStatus {
       case 'done':
         return TicketStatus.done;
       default:
-        throw Exception('Unknown TicketStatus: $str');
+        return null;
     }
   }
 
