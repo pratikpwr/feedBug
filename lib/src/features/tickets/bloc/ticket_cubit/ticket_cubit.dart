@@ -7,12 +7,12 @@ import '../../../../core/enums/ticket_enums.dart';
 import '../../../releases/models/release_model.dart';
 import '../../models/ticket_model.dart';
 
-part 'create_ticket_state.dart';
+part 'ticket_state.dart';
 
-class CreateTicketCubit extends Cubit<CreateTicketState> {
-  CreateTicketCubit({
+class TicketCubit extends Cubit<TicketState> {
+  TicketCubit({
     this.ticket,
-  }) : super(const CreateTicketState()) {
+  }) : super(const TicketState()) {
     _populateTicket(ticket);
   }
 
@@ -106,7 +106,7 @@ class CreateTicketCubit extends Cubit<CreateTicketState> {
       projectId: release.projectId,
       releaseId: release.id,
       createdAt: ticket?.createdAt ?? Timestamp.now(),
-      status: state.status,
+      status: state.status ?? TicketStatus.created,
       createdBy: 'AjFUaO5SKHz8O7uKaAuG',
       description: state.description,
       priority: state.priority,

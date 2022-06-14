@@ -6,7 +6,7 @@ import '../../../core/views/atomic/atoms/card_item.dart';
 import '../../../core/views/atomic/atoms/icon_item.dart';
 import '../../../core/views/atomic/atoms/padding.dart';
 import '../../releases/models/release_model.dart';
-import '../bloc/tickets_bloc/tickets_bloc.dart';
+import '../bloc/get_delete_ticket_bloc/get_delete_ticket_bloc.dart';
 import '../models/ticket_model.dart';
 import 'create_edit_ticket_screen.dart';
 
@@ -119,7 +119,7 @@ class TicketsWidget extends StatelessWidget {
 
   void _onDismissed(BuildContext context, DismissDirection direction) {
     if (direction == DismissDirection.endToStart) {
-      BlocProvider.of<TicketsBloc>(context)
+      BlocProvider.of<GetDeleteTicketBloc>(context)
           .add(DeleteTicket(ticketId: ticket.id));
     }
   }
@@ -154,7 +154,7 @@ class TicketsWidget extends StatelessWidget {
         ticket: ticket,
         release: release,
       );
-    })).then((value) => BlocProvider.of<TicketsBloc>(context)
+    })).then((value) => BlocProvider.of<GetDeleteTicketBloc>(context)
         .add(GetTickets(releaseId: release.id)));
   }
 }

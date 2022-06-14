@@ -7,8 +7,8 @@ import '../../../core/views/atomic/atoms/drop_down_item.dart';
 import '../../../core/views/atomic/atoms/padding.dart';
 import '../../../core/views/atomic/atoms/textfield_item.dart';
 import '../../releases/models/release_model.dart';
-import '../bloc/create_ticket/create_ticket_cubit.dart';
-import '../bloc/submit_ticket/submit_ticket_bloc.dart';
+import '../bloc/create_update_ticket_bloc/create_update_ticket_bloc.dart';
+import '../bloc/ticket_cubit/ticket_cubit.dart';
 import '../models/ticket_model.dart';
 
 class CreateEditTicketScreen extends StatelessWidget {
@@ -28,10 +28,10 @@ class CreateEditTicketScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => CreateTicketCubit(ticket: ticket),
+          create: (context) => TicketCubit(ticket: ticket),
         ),
         BlocProvider(
-          create: (context) => SubmitTicketBloc(repository: sl()),
+          create: (context) => CreateUpdateTicketBloc(repository: sl()),
         )
       ],
       child: Scaffold(
@@ -39,9 +39,9 @@ class CreateEditTicketScreen extends StatelessWidget {
           title: Text(isEdit ? 'Edit Ticket' : 'Create Ticket'),
         ),
         floatingActionButton: Builder(builder: _buildFab),
-        body: BlocBuilder<CreateTicketCubit, CreateTicketState>(
+        body: BlocBuilder<TicketCubit, TicketState>(
           builder: (context, state) {
-            final cubit = context.read<CreateTicketCubit>();
+            final cubit = context.read<TicketCubit>();
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(12),
@@ -163,15 +163,15 @@ class CreateEditTicketScreen extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () {
         final newTicket =
-            BlocProvider.of<CreateTicketCubit>(context).createTicket(release);
+            BlocProvider.of<TicketCubit>(context).createTicket(release);
 
         isEdit
-            ? BlocProvider.of<SubmitTicketBloc>(context)
+            ? BlocProvider.of<CreateUpdateTicketBloc>(context)
                 .add(UpdateTicket(ticket: newTicket))
-            : BlocProvider.of<SubmitTicketBloc>(context)
+            : BlocProvider.of<CreateUpdateTicketBloc>(context)
                 .add(SubmitTicket(ticket: newTicket));
       },
-      child: BlocConsumer<SubmitTicketBloc, SubmitTicketState>(
+      child: BlocConsumer<CreateUpdateTicketBloc, CreateUpdateTicketState>(
         listener: (context, state) {
           if (state is SubmitTicketSuccess) {
             Navigator.pop(context);

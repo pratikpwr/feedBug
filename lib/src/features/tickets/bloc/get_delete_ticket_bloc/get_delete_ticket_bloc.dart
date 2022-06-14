@@ -5,15 +5,17 @@ import '../../../../core/errors/failure_types.dart';
 import '../../models/ticket_model.dart';
 import '../../repository/ticket_repository.dart';
 
-part 'tickets_event.dart';
-part 'tickets_state.dart';
+part 'get_delete_ticket_event.dart';
 
-class TicketsBloc extends Bloc<TicketsEvent, TicketsState> {
+part 'get_delete_ticket_state.dart';
+
+class GetDeleteTicketBloc
+    extends Bloc<GetDeleteTicketEvent, GetDeleteTicketState> {
   final TicketRepository repository;
 
   final List<Ticket> tickets = [];
 
-  TicketsBloc({
+  GetDeleteTicketBloc({
     required this.repository,
   }) : super(GetTicketsInitial()) {
     on<GetTickets>(_onGetTicketsEvent);
@@ -22,7 +24,7 @@ class TicketsBloc extends Bloc<TicketsEvent, TicketsState> {
 
   void _onGetTicketsEvent(
     GetTickets event,
-    Emitter<TicketsState> emit,
+    Emitter<GetDeleteTicketState> emit,
   ) async {
     emit(GetTicketsLoading());
 
@@ -40,7 +42,7 @@ class TicketsBloc extends Bloc<TicketsEvent, TicketsState> {
 
   void _onDeleteTicketEvent(
     DeleteTicket event,
-    Emitter<TicketsState> emit,
+    Emitter<GetDeleteTicketState> emit,
   ) async {
     emit(GetTicketsLoading());
 

@@ -6,7 +6,6 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../../features/projects/bloc/get_projects/get_projects_bloc.dart';
 import '../../features/projects/repository/project_repository.dart';
 import '../../features/releases/repository/releases_repository.dart';
-import '../../features/tickets/bloc/submit_ticket/submit_ticket_bloc.dart';
 import '../../features/tickets/repository/ticket_repository.dart';
 import '../graphql/gql_client.dart';
 import '../network/api_client.dart';

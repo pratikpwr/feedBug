@@ -6,7 +6,7 @@ import '../../../core/views/widgets/failure_view.dart';
 import '../../../core/views/widgets/loader.dart';
 import '../../../core/views/widgets/unknown_state.dart';
 import '../../releases/models/release_model.dart';
-import '../bloc/tickets_bloc/tickets_bloc.dart';
+import '../bloc/get_delete_ticket_bloc/get_delete_ticket_bloc.dart';
 import 'create_edit_ticket_screen.dart';
 import 'ticket_tile.dart';
 
@@ -23,7 +23,7 @@ class TicketsScreen extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider(
-              create: (context) => TicketsBloc(repository: sl())
+              create: (context) => GetDeleteTicketBloc(repository: sl())
                 ..add(GetTickets(releaseId: release.id))),
         ],
         child: Scaffold(
@@ -37,14 +37,15 @@ class TicketsScreen extends StatelessWidget {
                   return CreateEditTicketScreen(
                     release: release,
                   );
-                })).then((value) => BlocProvider.of<TicketsBloc>(context)
-                    .add(GetTickets(releaseId: release.id)));
+                })).then((value) =>
+                    BlocProvider.of<GetDeleteTicketBloc>(context)
+                        .add(GetTickets(releaseId: release.id)));
               },
               child: const Icon(Icons.add),
             );
           }),
           body: SingleChildScrollView(
-            child: BlocBuilder<TicketsBloc, TicketsState>(
+            child: BlocBuilder<GetDeleteTicketBloc, GetDeleteTicketState>(
               builder: (context, state) {
                 if (state is GetTicketsLoading) {
                   return const Loader();
@@ -67,7 +68,7 @@ class TicketsScreen extends StatelessWidget {
                       type: state.type,
                       onRetry: () {
                         context
-                            .read<TicketsBloc>()
+                            .read<GetDeleteTicketBloc>()
                             .add(GetTickets(releaseId: release.id));
                       });
                 }

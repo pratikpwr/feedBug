@@ -1,10 +1,10 @@
-part of 'tickets_bloc.dart';
+part of 'get_delete_ticket_bloc.dart';
 
-abstract class TicketsEvent extends Equatable {
-  const TicketsEvent();
+abstract class GetDeleteTicketEvent extends Equatable {
+  const GetDeleteTicketEvent();
 }
 
-class GetTickets extends TicketsEvent {
+class GetTickets extends GetDeleteTicketEvent {
   final String releaseId;
 
   const GetTickets({
@@ -15,7 +15,7 @@ class GetTickets extends TicketsEvent {
   List<Object> get props => [releaseId];
 }
 
-class DeleteTicket extends TicketsEvent {
+class DeleteTicket extends GetDeleteTicketEvent {
   final String ticketId;
 
   const DeleteTicket({

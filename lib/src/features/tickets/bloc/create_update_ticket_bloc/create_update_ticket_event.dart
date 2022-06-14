@@ -1,10 +1,10 @@
-part of 'submit_ticket_bloc.dart';
+part of 'create_update_ticket_bloc.dart';
 
-abstract class SubmitTicketEvent extends Equatable {
-  const SubmitTicketEvent();
+abstract class CreateUpdateTicketEvent extends Equatable {
+  const CreateUpdateTicketEvent();
 }
 
-class SubmitTicket extends SubmitTicketEvent {
+class SubmitTicket extends CreateUpdateTicketEvent {
   final Ticket ticket;
 
   const SubmitTicket({required this.ticket});
@@ -13,7 +13,7 @@ class SubmitTicket extends SubmitTicketEvent {
   List<Object> get props => [ticket];
 }
 
-class UpdateTicket extends SubmitTicketEvent {
+class UpdateTicket extends CreateUpdateTicketEvent {
   final Ticket ticket;
 
   const UpdateTicket({required this.ticket});
